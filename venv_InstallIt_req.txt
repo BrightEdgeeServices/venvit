@@ -1,0 +1,10 @@
+pytest
+pytest-cov
+pathlib
+beetools
+black
+configparserext
+gitpython
+pre-commit
+pygithub
+termcolor

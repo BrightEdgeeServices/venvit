@@ -1,0 +1,8 @@
+argparse
+logging
+pathlib
+sys
+beetools
+configparserext
+installit
+termcolor
