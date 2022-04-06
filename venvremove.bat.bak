@@ -21,6 +21,6 @@ if "%1"=="" (
 call deactivate\
 ECHO ON
 d:
-cd %_projects_dir%
+cd _projects_dir
 
 rd /S /Q %_venv_base_dir%\%_project_name%_env

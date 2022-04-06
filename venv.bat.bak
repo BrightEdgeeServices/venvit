@@ -23,7 +23,6 @@ if "%1"=="" (
 FOR /D %%y IN (%TEMP%\%_project_name%_*) DO rd /S /Q %%y
 FOR /D %%y IN (%TEMP%\temp*) DO rd /S /Q %%y
 
-call %_venv_base_dir%\%_project_name%_env\Scripts\deactivate.bat
 call %_venv_base_dir%\%_project_name%_env\Scripts\activate.bat
 IF EXIST %_projects_dir%\%_project_name% GOTO ProjectFolder:
 GOTO Default:

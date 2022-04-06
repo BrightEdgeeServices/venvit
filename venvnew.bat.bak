@@ -26,8 +26,8 @@ if "%2"=="" (
 
 call deactivate
 %_python_base_dir%\Python%_python_version%\python -m venv --clear %_venv_base_dir%\%_project_name%_env
-copy d:\projects\Templates\pip.ini %_venv_base_dir%\%_project_name%_env
 call %_venv_base_dir%\%_project_name%_env\Scripts\activate.bat
+ECHO ON
 
 IF EXIST "%_batch_base_dir%\venv_all_venvs_req.txt" (
 	pip install -r %_batch_dir%\venv_all_venvs_req.txt

@@ -30,11 +30,11 @@ IF EXIST "%_batch_dir%\venv_all_venvs_req.txt" (
 IF EXIST "%_batch_dir%\venv_%_project_name%_req.txt" (
 	pip install --upgrade -r %_batch_dir%\venv_%_project_name%_req.txt
 )
-
+pause
 IF EXIST "%_batch_dir%\venv_%_project_name%_req.bat" (
 	call %_batch_dir%\venv_%_project_name%_req.bat
 )
-
+pause
 IF EXIST "%_projects_dir%\%_project_name%" (
 	cd %_projects_dir%\%_project_name%
 	) ELSE (
