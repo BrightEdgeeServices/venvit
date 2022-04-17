@@ -8,7 +8,7 @@ if "%1"=="" (
 
 Call :strlen _id _length
 if %_length%==1 (
-    set _gh_issue="GitHub_Issue_0000%_id%"
+    set _gh_issue="GitHub_Issue_0000%_id%
     ) else (
     if %_length%==2 (
         set _gh_issue="GitHub_Issue_000%_id%"
@@ -25,21 +25,30 @@ if %_length%==1 (
     )
 )
 
-ECHO Create existing new Git branch
+ECHO Pre-commit a Git branch
+ECHO Update setup.cfg
+ECHO - tool:pytest, addopts
+ECHO Update release.toml with latest release notes
+ECHO '
 ECHO GitHub issue id:   %_id%
 ECHO GitHub issue name: %_gh_issue%
 ECHO '
 set /P br="Press <ENTER> or <Ctrl-C>"
 
-if "%_id%" neq "" (
-    git checkout master
-    git pull
-    git checkout %_gh_issue%
+if  "%_id%" neq "" (
+    git checkout  %_gh_issue%
+    git add -A
+    pre-commit autoupdate
+    pre-commit
+    git add -A
+    pre-commit
     ) else (
-    @echo "Supply the git 'issue' number as NNNNN"
+    @echo "Supply the git 'issue' number as nnnnn"
 )
 
+git status
 goto:eof
+
 :strlen  StrVar  [RtnVar]
     setlocal EnableDelayedExpansion
     set "s=#!%~1!"

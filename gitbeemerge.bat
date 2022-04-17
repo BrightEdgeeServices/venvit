@@ -37,9 +37,9 @@ ECHO '
 set /P _br="Press <ENTER> or <Ctrl-C>"
 
 if "%_id%" neq "" (
-    git commit -m %_gh_issue%
     git checkout master
     git merge %_gh_issue% -m %_gh_msg%
+    git push origin
     ) else (
     echo "Supply the git 'issue' number as nnnnn"
 )
@@ -57,3 +57,4 @@ goto:eof
     )
 endlocal&if "%~2" neq "" (set %~2=%len%) else echo %len%
 exit /b
+git Status
