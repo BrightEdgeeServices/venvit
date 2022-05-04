@@ -21,8 +21,8 @@ python.exe -m pip install --upgrade pip
 @REM )
 IF EXIST "d:\Dropbox\Projects\%_project_name%" (
 	cd d:\Dropbox\Projects\%_project_name%
-	pip install -r cd d:\Dropbox\Projects\%_project_name%\requirements.txt
-	pip install -r cd d:\Dropbox\Projects\%_project_name%\requirements_test.txt
+	pip install -r d:\Dropbox\Projects\%_project_name%\requirements.txt
+	pip install -r d:\Dropbox\Projects\%_project_name%\requirements_test.txt
 	) ELSE (
 	md d:\Dropbox\Projects\%_project_name%
 	cd d:\Dropbox\Projects\%_project_name%
