@@ -1,2 +1,4 @@
 @ECHO ON
-pip3 install reahl[all]
+@ECHO ON
+pip install reahl[all]
+cd d:\Dropbox\Projects\RealTImeEvents

@@ -38,7 +38,7 @@ set /P br="Press <ENTER> or <Ctrl-C>"
 if  "%_id%" neq "" (
     git checkout  %_gh_issue%
     git add -A
-    pre-commit autoupdate
+    REM pre-commit autoupdate
     pre-commit
     git add -A
     pre-commit
