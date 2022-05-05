@@ -33,4 +33,3 @@ IF EXIST "d:\dropbox\batch\venv_%_project_name%_setup.bat" (
 	) ELSE (
 	ECHO @ECHO ON > "d:\dropbox\batch\venv_%_project_name%_setup.bat"
 )
-@REM call d:\dropbox\batch\venvupgrade %_project_name%
