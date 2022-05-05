@@ -1,3 +1,0 @@
-markdown
-mysql-connector-python
-pyodbc

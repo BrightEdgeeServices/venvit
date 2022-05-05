@@ -23,6 +23,7 @@ IF EXIST "d:\Dropbox\Projects\%_project_name%" (
 	cd d:\Dropbox\Projects\%_project_name%
 	pip install -r d:\Dropbox\Projects\%_project_name%\requirements.txt
 	pip install -r d:\Dropbox\Projects\%_project_name%\requirements_test.txt
+	pip install -e .
 	) ELSE (
 	md d:\Dropbox\Projects\%_project_name%
 	cd d:\Dropbox\Projects\%_project_name%

@@ -34,7 +34,9 @@ set /P br="Press <ENTER> or <Ctrl-C>"
 if "%_id%" neq "" (
     REM git checkout master
     REM git pull
+    git stash
     git checkout %_gh_issue%
+    git stash pop
     ) else (
     @echo "Supply the git 'issue' number as NNNNN"
 )
