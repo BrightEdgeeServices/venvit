@@ -7,7 +7,7 @@ if "%1"=="" (
 )
 
 ECHO Commit Git branch
-ECHO GitHub issue id: %_id%
+ECHO Experian ticket #: %_id%
 ECHO '
 set /P _br="Press <ENTER> or <Ctrl-C>"
 
@@ -16,4 +16,5 @@ if "%_id%" neq "" (
     ) else (
     echo "Supply the experian ticket #
 )
+git status
 exit /b

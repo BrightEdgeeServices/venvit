@@ -6,6 +6,7 @@ set _python_base_dir="c:\Program Files Python"
 set _venv_base_dir=d:\venv
 set _batch_dir=d:\dropbox\batch
 set _projects_dir=d:\Dropbox\Projects
+@REM W5195935
 if "%COMPUTERNAME%"=="W5202690" (
 	set _python_base_dir=c:\Python
 	set _venv_base_dir=c:\venv
@@ -48,7 +49,7 @@ IF EXIST "%_batch_dir%\venv_%_project_name%_req.txt" (
 )
 
 IF EXIST "%_batch_dir%\venv_%_project_name%_req.bat" (
-	call %_batch_dir%\venv_%_project_name%_req.bat %_project_name%
+	call %_batch_dir%\venv_%_project_name%_req.bat %_project_name% %_python_base_dir%\Python%_python_version%
 	) ELSE (
 	ECHO @ECHO ON > "%_batch_dir%\venv_%_project_name%_req.bat"
 	ECHO pip install -e . >> "%_batch_dir%\venv_%_project_name%_req.bat"

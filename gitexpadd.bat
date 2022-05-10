@@ -7,15 +7,16 @@ cd     ) else (
 
 ECHO Add to git branch
 ECHO Experian branch:  %_id%
-ECHO Add file:         %2
+@REM ECHO Add file:         %2
 ECHO '
 set /P br="Press <ENTER> or <Ctrl-C>"
 
 if  "%_id%" neq "" (
-    git checkout  %_id%
-    git add %2
+    @REM git checkout  %_id%
+    git add -A
     ) else (
-    @echo "Supply the git 'issue' number as nnnnn"
+    @echo "Supply Experian ticket nr as new branch name."
 )
 
+git status
 exit /b

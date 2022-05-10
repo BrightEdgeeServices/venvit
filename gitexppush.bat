@@ -8,7 +8,7 @@ if "%1"=="" (
     )
 
 ECHO Push to Experian Git
-ECHO Tag: %_id%
+ECHO Experian ticket#: %_id%
 ECHO '
 set /P _br="Press <ENTER> or <Ctrl-C>"
 
@@ -17,3 +17,5 @@ if "%_id%" neq "" (
     ) else (
     echo "Supply the ticket #."
 )
+git status
+exit /b
