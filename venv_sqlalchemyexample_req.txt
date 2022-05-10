@@ -1,4 +1,0 @@
-mysql-connector
-sqlalchemy
-mysqlclient
-sqlalchemy_utils
