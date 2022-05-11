@@ -6,7 +6,6 @@ set _python_base_dir="c:\Program Files Python"
 set _venv_base_dir=d:\venv
 set _batch_dir=d:\dropbox\batch
 set _projects_dir=d:\Dropbox\Projects
-@REM W5195935
 if "%COMPUTERNAME%"=="W5202690" (
 	set _python_base_dir=c:\Python
 	set _venv_base_dir=c:\venv
@@ -24,25 +23,14 @@ if "%1"=="" (
 FOR /D %%y IN (%TEMP%\%_project_name%_*) DO rd /S /Q %%y
 FOR /D %%y IN (%TEMP%\temp*) DO rd /S /Q %%y
 
-<<<<<<< HEAD
-call d:\venv\%_project_name%_env\Scripts\activate.bat
-@ECHO OFF
-IF EXIST "d:\Dropbox\Projects\"%_project_name% GOTO ProjectFolder:
-=======
-call %_venv_base_dir%\%_project_name%_env\Scripts\deactivate.bat
 call %_venv_base_dir%\%_project_name%_env\Scripts\activate.bat
 IF EXIST %_projects_dir%\%_project_name% GOTO ProjectFolder:
->>>>>>> 7e0b3ab7d8cb448e9b8143bdcbbbc94568f3a39e
 GOTO Default:
 
 :ProjectFolder
 d:
-<<<<<<< HEAD
-cd d:\Dropbox\Projects\%_project_name%
-=======
 cd %_projects_dir%\%_project_name%
 call %_batch_dir%\venv_%_project_name%_setup.bat %_project_name%
->>>>>>> 7e0b3ab7d8cb448e9b8143bdcbbbc94568f3a39e
 GOTO Exit:
 
 :Default
@@ -51,4 +39,3 @@ cd %_projects_dir%
 GOTO Exit:
 
 :Exit
-call d:\dropbox\batch\venv_%_project_name%_setup.bat %_project_name%
