@@ -24,25 +24,15 @@ if "%1"=="" (
 FOR /D %%y IN (%TEMP%\%_project_name%_*) DO rd /S /Q %%y
 FOR /D %%y IN (%TEMP%\temp*) DO rd /S /Q %%y
 
-<<<<<<< HEAD
-call d:\venv\%_project_name%_env\Scripts\activate.bat
-@ECHO OFF
-IF EXIST "d:\Dropbox\Projects\"%_project_name% GOTO ProjectFolder:
-=======
 call %_venv_base_dir%\%_project_name%_env\Scripts\deactivate.bat
 call %_venv_base_dir%\%_project_name%_env\Scripts\activate.bat
 IF EXIST %_projects_dir%\%_project_name% GOTO ProjectFolder:
->>>>>>> 7e0b3ab7d8cb448e9b8143bdcbbbc94568f3a39e
 GOTO Default:
 
 :ProjectFolder
 d:
-<<<<<<< HEAD
-cd d:\Dropbox\Projects\%_project_name%
-=======
 cd %_projects_dir%\%_project_name%
 call %_batch_dir%\venv_%_project_name%_setup.bat %_project_name%
->>>>>>> 7e0b3ab7d8cb448e9b8143bdcbbbc94568f3a39e
 GOTO Exit:
 
 :Default

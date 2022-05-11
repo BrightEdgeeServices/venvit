@@ -1,1 +1,2 @@
-@ECHO ON 
+@ECHO ON
+cd d:\Dropbox\Batch
