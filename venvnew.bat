@@ -1,4 +1,4 @@
-@ECHO OF
+@ECHO ON
 CLS
 ECHO Initialize "%1" virtual environment
 if "%1"=="" (
