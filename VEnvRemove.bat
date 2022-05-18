@@ -1,12 +1,26 @@
-@ECHO OFF
+@ECHO ON
+ECHO Remove "%1" virtual environment
+
+set _python_base_dir="c:\Program Files Python"
+set _venv_base_dir=d:\venv
+set _batch_dir=d:\dropbox\batch
+set _projects_dir=d:\Dropbox\Projects
+@REM W5195935
+if "%COMPUTERNAME%"=="W5202690" (
+	set _python_base_dir=c:\Python
+	set _venv_base_dir=c:\venv
+	set _batch_dir=d:\batch
+	set _projects_dir=d:\Projects
+)
+
+
 if "%1"=="" (
     set /P _project_name="Project name: "
     ) else (
     set _project_name=%1
 )
 
-@ECHO Remove "%_project_name%" virtual environment
 call deactivate
 d:
-cd d:\dropbox\projects
-rd /S /Q d:\venv\%_project_name%_env
+cd %_projects_dir%
+rd /S /Q %_venv_base_dir%\%_project_name%_env
