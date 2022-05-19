@@ -13,6 +13,7 @@ set /P br="Press <ENTER> or <Ctrl-C>"
 
 if  "%_id%" neq "" (
     @REM git checkout  %_id%
+    git pull
     git add -A
     ) else (
     @echo "Supply Experian ticket nr as new branch name."
