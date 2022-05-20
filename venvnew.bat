@@ -37,8 +37,8 @@ python.exe -m pip install --upgrade pip
 
 IF EXIST %_projects_dir%\%_project_name% (
 	cd %_projects_dir%\%_project_name%
-	pip install -r %_projects_dir%\%_project_name%\requirements.txt
 	pip install -r %_projects_dir%\%_project_name%\requirements_test.txt
+	pip install -r %_projects_dir%\%_project_name%\requirements.txt
 	pip install -e .
 	) ELSE (
 	md %_projects_dir%\%_project_name%
