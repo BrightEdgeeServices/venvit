@@ -2,7 +2,7 @@
 CLS
 ECHO Initialize "%1" virtual environment
 
-set _python_base_dir="c:\Program Files Python"
+set _python_base_dir="c:\Python"
 set _venv_base_dir=d:\venv
 set _batch_dir=d:\dropbox\batch
 set _projects_dir=d:\Dropbox\Projects
@@ -35,18 +35,14 @@ call %_venv_base_dir%\%_project_name%_env\Scripts\activate.bat
 echo on
 python.exe -m pip install --upgrade pip
 
-IF EXIST %_projects_dir%\%_project_name% (
-	cd %_projects_dir%\%_project_name%
-	pip install -r %_projects_dir%\%_project_name%\requirements.txt
-	pip install -r %_projects_dir%\%_project_name%\requirements_test.txt
-	pip install -e .
-	) ELSE (
-	md %_projects_dir%\%_project_name%
-	cd %_projects_dir%\%_project_name%
-)
+IF NOT EXIST %_projects_dir%\%_project_name% (md %_projects_dir%\%_project_name%)
+cd %_projects_dir%\%_project_name%
+IF EXIST %_projects_dir%\%_project_name%\requirements.txt (pip install -r %_projects_dir%\%_project_name%\requirements.txt)
+IF EXIST %_projects_dir%\%_project_name%\requirements_test.txt (cd %_projects_dir%\%_project_name%)
+IF EXIST %_projects_dir%\%_project_name%\pyproject.toml (pip install -e .)
 
 IF EXIST %_batch_dir%\venv_%_project_name%_install.bat (
-	call %_batch_dir%\venv_%_project_name%_install.bat
+	call %_batch_dir%\venv_%_project_name%_install.bat  %_project_name%
 ) else (
 	ECHO @ECHO ON > %_batch_dir%\venv_%_project_name%_install.bat
 )
@@ -56,4 +52,3 @@ IF EXIST %_batch_dir%\venv_%_project_name%_setup.bat (
 	) ELSE (
 	ECHO @ECHO ON > %_batch_dir%\venv_%_project_name%_setup.bat
 )
-
