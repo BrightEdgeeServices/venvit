@@ -30,11 +30,10 @@ if %_length%==1 (
     )
 )
 
-ECHO Merge a Git branch
+ECHO Merge Branch
 ECHO GitHub issue id:   %_id%
 ECHO GitHub issue name: %_gh_issue%
 ECHO '
-set /P _br="Press <ENTER> or <Ctrl-C>"
 
 if "%_id%" neq "" (
     git checkout master

@@ -25,7 +25,7 @@ if %_length%==1 (
     )
 )
 
-ECHO Pre-commit a Git branch
+ECHO Add files and Pre-Commit
 ECHO Update setup.cfg
 ECHO - tool:pytest, addopts
 ECHO Update release.toml with latest release notes
@@ -33,7 +33,6 @@ ECHO '
 ECHO GitHub issue id:   %_id%
 ECHO GitHub issue name: %_gh_issue%
 ECHO '
-set /P br="Press <ENTER> or <Ctrl-C>"
 
 if  "%_id%" neq "" (
     git checkout  %_gh_issue%

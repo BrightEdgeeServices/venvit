@@ -25,11 +25,10 @@ if %_length%==1 (
     )
 )
 
-ECHO Create new Git branch
+ECHO New Branch
 ECHO GitHub issue id:   %_id%
 ECHO GitHub issue name: %_gh_issue%
 ECHO '
-set /P br="Press <ENTER> or <Ctrl-C>"
 
 if "%_id%" neq "" (
     git checkout master

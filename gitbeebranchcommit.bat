@@ -30,11 +30,10 @@ if %_length%==1 (
     )
 )
 
-ECHO Commit Git branch
+ECHO Commit Branch
 ECHO GitHub issue id: %_id%
 ECHO Branch name:     %_gh_issue%
 ECHO '
-set /P _br="Press <ENTER> or <Ctrl-C>"
 
 if "%_id%" neq "" (
     git commit --allow-empty -m %_gh_issue%

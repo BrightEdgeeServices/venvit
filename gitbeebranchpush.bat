@@ -30,10 +30,9 @@ if %_length%==1 (
     )
 )
 
-ECHO Push Git branch
+ECHO Push Branch
 ECHO Branch name: %_gh_issue%
 ECHO '
-set /P _br="Press <ENTER> or <Ctrl-C>"
 
 if "%_gh_issue%" neq "" (
     git checkout %_gh_issue%

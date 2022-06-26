@@ -3,10 +3,9 @@ CLS
 ECHO Create a tag and push to Git
 set /P _tag="Tag name (n.n.n): "
 
-ECHO Push Git branch
+ECHO Push Tag
 ECHO Tag: %_tag%
 ECHO '
-set /P _br="Press <ENTER> or <Ctrl-C>"
 
 if "%_tag%" neq "" (
     git checkout master

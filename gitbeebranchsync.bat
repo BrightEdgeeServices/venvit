@@ -25,7 +25,7 @@ if %_length%==1 (
     )
 )
 
-ECHO Checkout existing Git branch
+ECHO Checkout Existing Branch
 ECHO GitHub issue id:   %_id%
 ECHO GitHub issue name: %_gh_issue%
 ECHO '
