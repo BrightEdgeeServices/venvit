@@ -8,12 +8,16 @@ if "%1"=="" (
 
 ECHO Create new Git branch
 ECHO JIRA ticket #:   %_jira_id%
-ECHO '
-set /P br="Press <ENTER> or <Ctrl-C>"
+ECHO Select the origin:
+ECHO 1. Development
+ECHO 2. Current
+set /P _origin="Select the origin: "
 
-if "%_jira_id%" neq "" (
+if "%_origin%" == "1" (
     git checkout development
     git pull
+)
+if "%_jira_id%" neq "" (
     git checkout -b %_jira_id%
     git push -u origin %_jira_id%
     ) else (
