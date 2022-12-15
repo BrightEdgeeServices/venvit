@@ -104,13 +104,10 @@ if "%_continue%"=="Y" (
     %_projects_dir:~0,2%
     call deactivate
     %_python_base_dir%\Python%_python_version%\python -m venv --clear %_venv_base_dir%\%_project_name%_env
-    PAUSE
 
     call %_venv_base_dir%\%_project_name%_env\Scripts\activate.bat
-    PAUSE
     @ECHO %_debug%
     python.exe -m pip install --upgrade pip
-    PAUSE
 
     IF NOT EXIST %_projects_dir%\%_project_name% (md %_projects_dir%\%_project_name%)
     cd %_projects_dir%\%_project_name%
@@ -118,6 +115,11 @@ if "%_continue%"=="Y" (
     IF NOT EXIST %_projects_dir%\%_project_name%\requirements_test.txt ( ECHO git-it > %_projects_dir%\%_project_name%\requirements_test.txt )
     pip install --upgrade -r %_projects_dir%\%_project_name%\requirements_test.txt
     IF EXIST %_projects_dir%\%_project_name%\pyproject.toml (pip install -e .)
+
+    IF "%_reset%"=="Y" (
+        move %_scripts_dir%\venv_%_project_name%_setup.bat %_scripts_dir%\Archive
+        move %_scripts_dir%\venv_%_project_name%_install.bat %_scripts_dir%\Archive
+    )
 
     IF NOT EXIST %_scripts_dir%\venv_%_project_name%_install.bat (
         ECHO @ECHO %%1 > %_scripts_dir%\venv_%_project_name%_install.bat
@@ -128,11 +130,6 @@ if "%_continue%"=="Y" (
         if /I "%_reahl_project%"=="Y" (
             ECHO python -m pip install --upgrade reahl[declarative,sqlite,mysql,dev,doc] >> %_scripts_dir%\venv_%_project_name%_install.bat
         )
-    )
-
-    IF %_reset%=="Y" (
-        move %_scripts_dir%\venv_%_project_name%_setup.bat %_scripts_dir%\Archive
-        move %_scripts_dir%\venv_%_project_name%_install.bat %_scripts_dir%\Archive
     )
 
     IF NOT EXIST %_scripts_dir%\venv_%_project_name%_setup.bat (
