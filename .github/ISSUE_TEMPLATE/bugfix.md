@@ -1,7 +1,7 @@
 ---
 name: BugFix Report
 about: Report a bug in the system
-title: "[BugFIx]: "
+title: "[BugFix]: "
 labels:
   - bugfix
 ---
@@ -13,7 +13,6 @@ labels:
 **Minimal Complete Verifiable Example**:
 
 <!-- See http://matthewrocklin.com/blog/work/2018/02/28/minimal-bug-reports or https://stackoverflow.com/help/mcve for an example -->
-<!-- bugfix', 'feature', 'hotfix', 'wip -->
 
 ```python
 # Put your MCVE code here
