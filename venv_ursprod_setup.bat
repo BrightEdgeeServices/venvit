@@ -1,0 +1,7 @@
+@ECHO %2
+SET GITIT_PY_VER=310 
+SET GITIT_ISSUE_PREFIX=BEE 
+SET PYTHONPATH=d:\Dropbox\Projects\URSProd
+c:
+cd "C:\Program Files\URSProd"
+

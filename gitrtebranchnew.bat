@@ -1,0 +1,56 @@
+@ECHO OFF
+CLS
+if "%1"=="" (
+    set /P _id="Git issue id (nnnnn): "
+    ) else (
+    set _id=%1
+)
+
+Call :strlen _id _length
+if %_length%==1 (
+    set _gh_issue="RTE-%_id%"
+    ) else (
+    if %_length%==2 (
+        set _gh_issue="RTE-%_id%"
+        ) else (
+        if %_length%==3 (
+            set _gh_issue="RTE-%_id%"
+            ) else (
+            if %_length%==4 (
+                set _gh_issue="RTE-%_id%"
+                ) else (
+                set _gh_issue="RTE-%_id%"
+            )
+        )
+    )
+)
+
+ECHO New Branch
+ECHO GitHub issue id:   %_id%
+ECHO GitHub issue name: %_gh_issue%
+ECHO '
+
+if "%_id%" neq "" (
+    git checkout master
+    git pull
+    git checkout -b %_gh_issue%
+    git push -u origin %_gh_issue%
+    ) else (
+    @echo "Supply the git 'issue' number as NNNNN"
+)
+
+git status
+goto:eof
+
+:strlen  StrVar  [RtnVar]
+    setlocal EnableDelayedExpansion
+    set "s=#!%~1!"
+    set "len=0"
+    for %%N in (8 4 2 1) do (
+        if "!s:~%%N,1!" neq "" (
+            set /a "len+=%%N"
+            set "s=!s:~%%N!"
+        )
+    )
+endlocal&if "%~2" neq "" (set %~2=%len%) else echo %len%
+exit /b

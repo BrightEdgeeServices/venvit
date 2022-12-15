@@ -1,18 +1,18 @@
-@ECHO On
+@ECHO ON
 CLS
-ECHO Initialize "%1" virtual environment
+@ECHO Initialize "%1" virtual environment
 
-set _python_base_dir="c:\Program Files Python"
+IF /I "%2"=="ON" (
+    set _debug=ON
+    ) ELSE (
+    set _debug=OFF
+)
+
+IF %ENVIRONMENT%==loc_dev CALL %SCRIPTS_DIR%\env_var_loc_dev.bat %_debug%
+
 set _venv_base_dir=d:\venv
 set _batch_dir=d:\dropbox\batch
 set _projects_dir=d:\Dropbox\Projects
-@REM W5195935
-if "%COMPUTERNAME%"=="W5202690" (
-	set _python_base_dir=c:\Python
-	set _venv_base_dir=c:\venv
-	set _batch_dir=d:\batch
-	set _projects_dir=d:\Projects
-)
 
 if "%1"=="" (
     set /P _project_name="Project name: "

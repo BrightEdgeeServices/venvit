@@ -1,0 +1,13 @@
+SET DB_OLD_CFG_USERID=main_user
+SET DB_OLD_CFG_PASSWORD=g,!i?an3f.0w
+SET DB_OLD_CFG_HOST=172.24.178.10
+SET DB_OLD_CFG_NAME=dbPAYMENT_MANAGEMENT
+SET DB_OLD_CFG_PORT=3306
+SET DB_NEW_CFG_USERID=hendrikt
+SET DB_NEW_CFG_PASSWORD=Sh03E^entHorizon
+SET DB_NEW_CFG_HOST=34.76.211.56
+SET DB_NEW_CFG_NAME=fin-serve-db-4-dev
+SET DB_NEW_CFG_PORT=3306
+SET DB_NEW_SSL_CA=D:\Dropbox\Lib\SSHKeys\fintech-cfgmgr-server-ca.pem
+SET DB_NEW_SSL_KEY=D:\Dropbox\Lib\SSHKeys\fintech-cfgmgr-client-key.pem
+SET DB_NEW_SSL_CERT=D:\Dropbox\Lib\SSHKeys\fintech-cfgmgr-client-cert.pem

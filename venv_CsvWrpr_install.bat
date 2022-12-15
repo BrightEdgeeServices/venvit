@@ -1,1 +1,2 @@
-@ECHO ON 
+pip list
+@ECHO ON
