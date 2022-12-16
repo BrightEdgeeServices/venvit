@@ -30,14 +30,12 @@ IF EXIST %_projects_dir%\%_project_name% GOTO ProjectFolder:
 GOTO Default:
 
 :ProjectFolder
-@ECHO ProjectFolder
-d:
+%_projects_dir:~0,2%
 cd %_projects_dir%\%_project_name%
 GOTO Exit:
 
 :Default
-@ECHO Default
-d:
+%_projects_dir:~0,2%
 cd %_projects_dir%
 GOTO Exit:
 
