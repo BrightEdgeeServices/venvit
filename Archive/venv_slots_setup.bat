@@ -1,0 +1,3 @@
+@ECHO OFF
+SET REAHLWORKSPACE=d:\Dropbox\Projects
+SET MYSQL_PWD=En0l@Gay

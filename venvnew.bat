@@ -35,8 +35,7 @@ IF /I "%5"=="ON" (
 IF "%1"=="" GOTO :AppHelp
 
 @ECHO %_debug%
-ECHO Initialize %1 virtual environment
-ECHO ======================================
+ECHO Create new %1 virtual environment
 ECHO '
 
 set _display_help="N"
@@ -117,36 +116,47 @@ if "%_continue%"=="Y" (
     IF EXIST %_projects_dir%\%_project_name%\pyproject.toml (pip install -e .)
 
     IF "%_reset%"=="Y" (
-        move %_scripts_dir%\venv_%_project_name%_setup.bat %_scripts_dir%\Archive
+        move %_scripts_dir%\venv_%_project_name%_setup_mandatory.bat %_scripts_dir%\Archive
         move %_scripts_dir%\venv_%_project_name%_install.bat %_scripts_dir%\Archive
     )
 
     IF NOT EXIST %_scripts_dir%\venv_%_project_name%_install.bat (
-        ECHO @ECHO %%1 > %_scripts_dir%\venv_%_project_name%_install.bat
-        ECHO git init >> %_scripts_dir%\venv_%_project_name%_install.bat
-        ECHO pip install --upgrade --force pre-commit >> %_scripts_dir%\venv_%_project_name%_install.bat
-        ECHO pre-commit install >> %_scripts_dir%\venv_%_project_name%_install.bat
-        ECHO pre-commit autoupdate >> %_scripts_dir%\venv_%_project_name%_install.bat
+        ECHO @ECHO %%2 > %_scripts_dir%\venv_%_project_name%_install.bat
+        ECHO @ECHO Running venv_%_project_name%_install.bat...>> %_scripts_dir%\venv_%_project_name%_install.bat
+        ECHO git init>>%_scripts_dir%\venv_%_project_name%_install.bat
+        ECHO pip install --upgrade --force pre-commit>>%_scripts_dir%\venv_%_project_name%_install.bat
+        ECHO pre-commit install>> %_scripts_dir%\venv_%_project_name%_install.bat
+        ECHO pre-commit autoupdate>> %_scripts_dir%\venv_%_project_name%_install.bat
         if /I "%_reahl_project%"=="Y" (
-            ECHO python -m pip install --upgrade reahl[declarative,sqlite,mysql,dev,doc] >> %_scripts_dir%\venv_%_project_name%_install.bat
+            ECHO python -m pip install --upgrade reahl[declarative,sqlite,mysql,dev,doc]>> %_scripts_dir%\venv_%_project_name%_install.bat
         )
     )
 
-    IF NOT EXIST %_scripts_dir%\venv_%_project_name%_setup.bat (
-        ECHO @ECHO %%1 > %_scripts_dir%\venv_%_project_name%_setup.bat
-        ECHO SET VENV_PY_VER=%_python_version% >> %_scripts_dir%\venv_%_project_name%_setup.bat
-        ECHO SET GITIT_ISSUE_PREFIX=%_issue_prefix% >> %_scripts_dir%\venv_%_project_name%_setup.bat
-        ECHO SET PYTHONPATH=%_projects_dir%\%_project_name%  >> %_scripts_dir%\venv_%_project_name%_setup.bat
+    IF NOT EXIST %_scripts_dir%\venv_%_project_name%_setup_mandatory.bat (
+        ECHO @ECHO %%2 > %_scripts_dir%\venv_%_project_name%_setup_mandatory.bat
+        ECHO @ECHO Running venv_%_project_name%_setup_mandatory.bat...>> %_scripts_dir%\venv_%_project_name%_setup_mandatory.bat
+        ECHO SET VENV_PY_VER=%_python_version%>> %_scripts_dir%\venv_%_project_name%_setup_mandatory.bat
+        ECHO SET GITIT_ISSUE_PREFIX=%_issue_prefix%>> %_scripts_dir%\venv_%_project_name%_setup_mandatory.bat
+        ECHO SET PYTHONPATH=%_projects_dir%\%_project_name%>> %_scripts_dir%\venv_%_project_name%_setup_mandatory.bat
         IF %_init_python_base_dir%=="Y" (ECHO SET VENV_PYTHON_BASE=%_init_python_base_dir%)
         if /I "%_reahl_project%"=="Y" (
-            ECHO SET REAHLWORKSPACE=%_projects_dir% >> %_scripts_dir%\venv_%_project_name%_setup.bat
-            REM ECHO SET MYSQL_PWD=En0l@Gay >> %_scripts_dir%\venv_%_project_name%_setup.bat
+            ECHO SET REAHLWORKSPACE=%_projects_dir%>> %_scripts_dir%\venv_%_project_name%_setup_mandatory.bat
+            REM ECHO SET MYSQL_PWD=En0l@Gay>> %_scripts_dir%\venv_%_project_name%_setup_mandatory.bat
         )
+    )
+
+    IF NOT EXIST %_scripts_dir%\Archive\venv_%_project_name%_setup_custom.bat (
+        ECHO @ECHO %%2 > %_scripts_dir%\venv_%_project_name%_setup_custom.bat
+        ECHO @ECHO Running venv_%_project_name%_setup_custom.bat...>> %_scripts_dir%\venv_%_project_name%_setup_custom.bat
+        ) ELSE (
+        move %_scripts_dir%\Archive\venv_%_project_name%_setup_custom.bat %_scripts_dir%
     )
 
     call %_scripts_dir%\venv_%_project_name%_install.bat %_project_name% %_debug%
-    call %_scripts_dir%\venv_%_project_name%_setup.bat %_project_name% %_debug%
-    TYPE %_scripts_dir%\venv_%_project_name%_setup.bat
+    call %_scripts_dir%\venv_%_project_name%_setup_mandatory.bat %_project_name% %_debug%
+    call %_scripts_dir%\venv_%_project_name%_setup_custom.bat %_project_name% %_debug%
+    TYPE %_scripts_dir%\venv_%_project_name%_setup_mandatory.bat
+    TYPE %_scripts_dir%\venv_%_project_name%_setup_custom.bat
 )
 GOTO :Exit
 
@@ -158,7 +168,7 @@ GOTO :Exit
 @ECHO  - GitPrefix:   The prefix for registering Git issues.
 @ECHO  - Reahl:       Is this a Reahl project (Y/N)
 @ECHO  - debug:       Display commands (ON/OFF)
-@ECHO  - Reset:       Move venv_%_project_name%_setup.bat and venv_%_project_name%_install.bat to %_scripts_dir%\Archive (Y/N)
+@ECHO  - Reset:       Move venv_%_project_name%_setup_mandatory.bat and venv_%_project_name%_install.bat to %_scripts_dir%\Archive (Y/N)
 GOTO :Exit
 
 :DisplayEnvVarHelp

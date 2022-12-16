@@ -1,2 +1,0 @@
-pip list
-@ECHO ON
