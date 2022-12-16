@@ -25,20 +25,23 @@ FOR /D %%y IN (%TEMP%\temp*) DO rd /S /Q %%y
 
 call %_venv_base_dir%\%_project_name%_env\Scripts\deactivate.bat
 call %_venv_base_dir%\%_project_name%_env\Scripts\activate.bat
-@ECHO On
+@ECHO %_debug%
 IF EXIST %_projects_dir%\%_project_name% GOTO ProjectFolder:
 GOTO Default:
 
 :ProjectFolder
+@ECHO ProjectFolder
 d:
 cd %_projects_dir%\%_project_name%
-call %_batch_dir%\venv_%_project_name%_setup.bat %_project_name%
 GOTO Exit:
 
 :Default
+@ECHO Default
 d:
 cd %_projects_dir%
 GOTO Exit:
 
 :Exit
-call %_batch_dir%\venv_%_project_name%_setup.bat %_project_name%
+@ECHO Exit
+call %_batch_dir%\venv_%_project_name%_setup_mandatory.bat %_project_name% %_debug%
+call %_batch_dir%\venv_%_project_name%_setup_custom.bat %_project_name% %_debug%

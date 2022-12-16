@@ -1,0 +1,5 @@
+@ECHO %1 
+SET VENV_PY_VER=310 
+SET GITIT_ISSUE_PREFIX=BEE 
+SET PYTHONPATH=d:\Dropbox\Projects\rte  
+SET REAHLWORKSPACE=d:\Dropbox\Projects 

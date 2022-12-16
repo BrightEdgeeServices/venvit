@@ -21,7 +21,11 @@ if "%1"=="" (
 
 call deactivate
 @ECHO %_debug%
-d:
+
+move %_scripts_dir%\venv_%_project_name%_install.bat %_scripts_dir%\Archive
+move %_scripts_dir%\venv_%_project_name%_setup_mandatory.bat %_scripts_dir%\Archive
+move %_scripts_dir%\venv_%_project_name%_setup_custom.bat %_scripts_dir%\Archive
+
+%_projects_dir:~0,2%
 cd %_projects_dir%
 rd /S /Q %_venv_base_dir%\%_project_name%_env
-REM del /Q %_scripts_dir%\venv_%_project_name%_setup.bat %_scripts_dir%\venv_%_project_name%_install.bat

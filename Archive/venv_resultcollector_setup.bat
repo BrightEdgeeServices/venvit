@@ -1,0 +1,4 @@
+@ECHO %1 
+SET GITIT_PY_VER=310 
+SET GITIT_ISSUE_PREFIX=BEE 
+SET PYTHONPATH=d:\Dropbox\Projects\resultcollector  
