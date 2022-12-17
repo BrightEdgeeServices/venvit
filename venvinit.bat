@@ -1,4 +1,4 @@
-@ECHO ON
+@ECHO OFF
 CLS
 @ECHO Initialize "%1" virtual environment
 
@@ -7,6 +7,7 @@ IF /I "%2"=="ON" (
     ) ELSE (
     set _debug=OFF
 )
+@ECHO %_debug%
 
 IF %ENVIRONMENT%==loc_dev CALL %SCRIPTS_DIR%\env_var_loc_dev.bat %_debug%
 
@@ -40,6 +41,5 @@ cd %_projects_dir%
 GOTO Exit:
 
 :Exit
-@ECHO Exit
 call %_batch_dir%\venv_%_project_name%_setup_mandatory.bat %_project_name% %_debug%
 call %_batch_dir%\venv_%_project_name%_setup_custom.bat %_project_name% %_debug%

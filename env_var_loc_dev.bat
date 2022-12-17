@@ -4,7 +4,7 @@ IF /I "%1"=="ON" (
     ) ELSE (
     set _debug=OFF
 )
-ECHO "%_debug%"
+ECHO %_debug%
 SET DB_PORT_RTE=50001
 SET DB_PORT_CDFS_TRANS=60001
 SET VENV_PYTHON_BASE=c:\Python
