@@ -109,11 +109,12 @@ if "%_continue%"=="Y" (
     python.exe -m pip install --upgrade pip
 
     IF NOT EXIST %_projects_dir%\%_project_name% (md %_projects_dir%\%_project_name%)
+    %_projects_dir:~0,2%
     cd %_projects_dir%\%_project_name%
     IF EXIST %_projects_dir%\%_project_name%\requirements.txt (pip install --upgrade -r %_projects_dir%\%_project_name%\requirements.txt)
     IF NOT EXIST %_projects_dir%\%_project_name%\requirements_test.txt ( ECHO git-it > %_projects_dir%\%_project_name%\requirements_test.txt )
+    pip install --upgrade -r %_projects_dir%\%_project_name%\requirements.txt
     pip install --upgrade -r %_projects_dir%\%_project_name%\requirements_test.txt
-    IF EXIST %_projects_dir%\%_project_name%\pyproject.toml (pip install -e .)
 
     IF "%_reset%"=="Y" (
         move %_scripts_dir%\venv_%_project_name%_setup_mandatory.bat %_scripts_dir%\Archive
@@ -123,13 +124,14 @@ if "%_continue%"=="Y" (
     IF NOT EXIST %_scripts_dir%\venv_%_project_name%_install.bat (
         ECHO @ECHO %%2 > %_scripts_dir%\venv_%_project_name%_install.bat
         ECHO @ECHO Running venv_%_project_name%_install.bat...>> %_scripts_dir%\venv_%_project_name%_install.bat
-        ECHO git init>>%_scripts_dir%\venv_%_project_name%_install.bat
-        ECHO pip install --upgrade --force pre-commit>>%_scripts_dir%\venv_%_project_name%_install.bat
+        ECHO git init>> %_scripts_dir%\venv_%_project_name%_install.bat
+        ECHO pip install --upgrade --force pre-commit>> %_scripts_dir%\venv_%_project_name%_install.bat
         ECHO pre-commit install>> %_scripts_dir%\venv_%_project_name%_install.bat
         ECHO pre-commit autoupdate>> %_scripts_dir%\venv_%_project_name%_install.bat
-        if /I "%_reahl_project%"=="Y" (
+        IF /I "%_reahl_project%"=="Y" (
             ECHO python -m pip install --upgrade reahl[declarative,sqlite,mysql,dev,doc]>> %_scripts_dir%\venv_%_project_name%_install.bat
         )
+        ECHO IF EXIST "%_projects_dir%\%_project_name%\pyproject.toml" pip install -e .>> %_scripts_dir%\venv_%_project_name%_install.bat
     )
 
     IF NOT EXIST %_scripts_dir%\venv_%_project_name%_setup_mandatory.bat (
@@ -138,7 +140,7 @@ if "%_continue%"=="Y" (
         ECHO SET VENV_PY_VER=%_python_version%>> %_scripts_dir%\venv_%_project_name%_setup_mandatory.bat
         ECHO SET GITIT_ISSUE_PREFIX=%_issue_prefix%>> %_scripts_dir%\venv_%_project_name%_setup_mandatory.bat
         ECHO SET PYTHONPATH=%_projects_dir%\%_project_name%>> %_scripts_dir%\venv_%_project_name%_setup_mandatory.bat
-        IF %_init_python_base_dir%=="Y" (ECHO SET VENV_PYTHON_BASE=%_init_python_base_dir%)
+        IF %_init_python_base_dir%=="Y" (ECHO SET VENV_PYTHON_BASE=%_python_base_dir%)
         if /I "%_reahl_project%"=="Y" (
             ECHO SET REAHLWORKSPACE=%_projects_dir%>> %_scripts_dir%\venv_%_project_name%_setup_mandatory.bat
             REM ECHO SET MYSQL_PWD=En0l@Gay>> %_scripts_dir%\venv_%_project_name%_setup_mandatory.bat

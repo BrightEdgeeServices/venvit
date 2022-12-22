@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="ff0edfcf-b05b-4367-86fb-2665e9a65a21" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/env_var_loc_dev.bat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gitrtebranchnew.bat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/test_gitpython_01.bat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ursmonthendcollect.bat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ursweeklycollect.bat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/venv_ursprod_install.bat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/venv_ursprod_setup.bat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ReahlEnv.bat" beforeDir="false" afterPath="$PROJECT_DIR$/ReahlEnv.bat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev.bat" beforeDir="false" afterPath="$PROJECT_DIR$/dev.bat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hdt-dev01.bat" beforeDir="false" afterPath="$PROJECT_DIR$/hdt-dev01.bat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/reahl_init.bat" beforeDir="false" afterPath="$PROJECT_DIR$/reahl_init.bat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/venv.bat" beforeDir="false" afterPath="$PROJECT_DIR$/venv.bat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/venv_Batch_install.bat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/venv_CsvWrpr_install.bat" beforeDir="false" afterPath="$PROJECT_DIR$/venv_CsvWrpr_install.bat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/venv_batch_setup.bat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/venv_fintech-chnmgr_setup.bat" beforeDir="false" afterPath="$PROJECT_DIR$/venv_fintech-chnmgr_setup.bat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/venv_pagelayout_setup.bat" beforeDir="false" afterPath="$PROJECT_DIR$/venv_pagelayout_setup.bat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/venv_sqldbwrpr_setup.bat" beforeDir="false" afterPath="$PROJECT_DIR$/venv_sqldbwrpr_setup.bat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/venv_test_setup.bat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/venv_urs01_install.bat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/venv_urs01_setup.bat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/venvnew.bat" beforeDir="false" afterPath="$PROJECT_DIR$/venvnew.bat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/venvremove.bat" beforeDir="false" afterPath="$PROJECT_DIR$/venvremove.bat" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="1weVkKLn24gE0pb4OGOLxyIoEpV" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="C:/Program Files/URSProd" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\Dropbox\Batch" />
+    </key>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="ff0edfcf-b05b-4367-86fb-2665e9a65a21" name="Changes" comment="" />
+      <created>1628819182796</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1628819182796</updated>
+      <workItem from="1628819184880" duration="2091000" />
+      <workItem from="1629239398686" duration="82000" />
+      <workItem from="1629751981119" duration="699000" />
+      <workItem from="1629822826221" duration="117000" />
+      <workItem from="1629825020670" duration="862000" />
+      <workItem from="1630850447207" duration="494000" />
+      <workItem from="1631011290689" duration="236000" />
+      <workItem from="1631204177266" duration="36000" />
+      <workItem from="1631204443016" duration="141000" />
+      <workItem from="1631204733787" duration="42000" />
+      <workItem from="1631207143334" duration="39000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="BEK_SORT_TYPE" value="1" />
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="master" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+              <option name="COLUMN_ID_WIDTH">
+                <map>
+                  <entry key="Table.Default.Author.ColumnIdWidth" value="176" />
+                  <entry key="Table.Default.Date.ColumnIdWidth" value="167" />
+                  <entry key="Table.Space.CommitStatus.ColumnIdWidth" value="166" />
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="RECENT_FILTERS">
+      <map>
+        <entry key="Branch">
+          <value>
+            <list>
+              <RecentGroup>
+                <option name="FILTER_VALUES">
+                  <option value="origin/master" />
+                </option>
+              </RecentGroup>
+            </list>
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+</project>

@@ -5,4 +5,4 @@ REM TIMEOUT /T 1
 start cmd /k cd "D:\Projects"
 TIMEOUT /T 1
 start cmd /k cd "D:\Projects"
-exit 
+exit
