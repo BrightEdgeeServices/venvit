@@ -111,8 +111,9 @@ if "%_continue%"=="Y" (
     IF NOT EXIST %_projects_dir%\%_project_name% (md %_projects_dir%\%_project_name%)
     %_projects_dir:~0,2%
     cd %_projects_dir%\%_project_name%
-    IF EXIST %_projects_dir%\%_project_name%\requirements.txt (pip install --upgrade -r %_projects_dir%\%_project_name%\requirements.txt)
+    IF NOT EXIST %_projects_dir%\%_project_name%\requirements.txt ( ECHO git-it > %_projects_dir%\%_project_name%\requirements.txt )
     IF NOT EXIST %_projects_dir%\%_project_name%\requirements_test.txt ( ECHO git-it > %_projects_dir%\%_project_name%\requirements_test.txt )
+    IF NOT EXIST %_projects_dir%\%_project_name%\.pre-commit-config.yaml CALL :CreatePreCommitConfigYaml
     pip install --upgrade -r %_projects_dir%\%_project_name%\requirements.txt
     pip install --upgrade -r %_projects_dir%\%_project_name%\requirements_test.txt
 
@@ -125,6 +126,8 @@ if "%_continue%"=="Y" (
         ECHO @ECHO %%2 > %_scripts_dir%\venv_%_project_name%_install.bat
         ECHO @ECHO Running venv_%_project_name%_install.bat...>> %_scripts_dir%\venv_%_project_name%_install.bat
         ECHO git init>> %_scripts_dir%\venv_%_project_name%_install.bat
+        ECHO pip install --upgrade --force black>> %_scripts_dir%\venv_%_project_name%_install.bat
+        ECHO pip install --upgrade --force flake8>> %_scripts_dir%\venv_%_project_name%_install.bat
         ECHO pip install --upgrade --force pre-commit>> %_scripts_dir%\venv_%_project_name%_install.bat
         ECHO pre-commit install>> %_scripts_dir%\venv_%_project_name%_install.bat
         ECHO pre-commit autoupdate>> %_scripts_dir%\venv_%_project_name%_install.bat
@@ -178,6 +181,19 @@ GOTO :Exit
 @ECHO ENVIRONMENT: Set current environment variable (loc_dev, rem_dev, qa, prod)
 @ECHO SCRIPTS_DIR:  Set the directory path for scripts
 GOTO :Exit
+
+:CreatePreCommitConfigYaml
+ECHO repos:> %_projects_dir%\%_project_name%\.pre-commit-config.yaml
+ECHO   - repo: https://github.com/psf/black>> %_projects_dir%\%_project_name%\.pre-commit-config.yaml
+ECHO     rev: stable>> %_projects_dir%\%_project_name%\.pre-commit-config.yaml
+ECHO     hooks:>> %_projects_dir%\%_project_name%\.pre-commit-config.yaml
+ECHO     - id: black>> %_projects_dir%\%_project_name%\.pre-commit-config.yaml
+ECHO       language_version: python3>> %_projects_dir%\%_project_name%\.pre-commit-config.yaml
+ECHO   - repo: https://github.com/pycqa/flake8>> %_projects_dir%\%_project_name%\.pre-commit-config.yaml
+ECHO     rev: stable>> %_projects_dir%\%_project_name%\.pre-commit-config.yaml
+ECHO     hooks:>> %_projects_dir%\%_project_name%\.pre-commit-config.yaml
+ECHO     - id: flake8>> %_projects_dir%\%_project_name%\.pre-commit-config.yaml
+ECHO       language_version: python3>> %_projects_dir%\%_project_name%\.pre-commit-config.yaml
 
 :Exit
 EXIT /B 0
