@@ -7,10 +7,10 @@ IF /I "%2"=="ON" (
 @ECHO %_debug%
 ECHO Remove %1 virtual environment
 
-set _python_base_dir=%VENV_PYTHON_BASE%
-set _venv_base_dir=%VENV_BASE%
-set _scripts_dir=%SCRIPTS_DIR%
-set _projects_dir=%VENV_PROJECTS%
+REM set _python_base_dir=%VENV_PYTHON_BASE%
+REM set _venv_base_dir=%VENV_BASE%
+REM set _scripts_dir=%SCRIPTS_DIR%
+REM set _projects_dir=%VENV_PROJECTS%
 
 if "%1"=="" (
     set /P _project_name="Project name: "
@@ -22,10 +22,10 @@ if "%1"=="" (
 call deactivate
 @ECHO %_debug%
 
-move %_scripts_dir%\venv_%_project_name%_install.bat %_scripts_dir%\Archive
-move %_scripts_dir%\venv_%_project_name%_setup_mandatory.bat %_scripts_dir%\Archive
-move %_scripts_dir%\venv_%_project_name%_setup_custom.bat %_scripts_dir%\Archive
+move %SCRIPTS_DIR%\venv_%_project_name%_install.bat %SCRIPTS_DIR%\Archive
+move %SCRIPTS_DIR%\venv_%_project_name%_setup_mandatory.bat %SCRIPTS_DIR%\Archive
+move %SCRIPTS_DIR%\venv_%_project_name%_setup_custom.bat %SCRIPTS_DIR%\Archive
 
-%_projects_dir:~0,2%
-cd %_projects_dir%
-rd /S /Q %_venv_base_dir%\%_project_name%_env
+%PROJECTS_BASE_DIR:~0,2%
+cd %PROJECTS_BASE_DIR%
+rd /S /Q %VENV_BASE_DIR%\%_project_name%_env

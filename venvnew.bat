@@ -45,10 +45,10 @@ IF %_display_help%=="Y" GOTO :DisplayEnvVarHelp
 
 IF %ENVIRONMENT%==loc_dev (CALL %SCRIPTS_DIR%\env_var_loc_dev.bat %_debug%)
 
-set _python_base_dir=%VENV_PYTHON_BASE%
-set _venv_base_dir=%VENV_BASE%
+set _python_base_dir=%VENV_PYTHON_BASE_DIR%
+set _venv_base_dir=%VENV_BASE_DIR%
 set _scripts_dir=%SCRIPTS_DIR%
-set _projects_dir=%VENV_PROJECTS%
+set _project_base_dir=%PROJECTS_BASE_DIR%
 set _project_name=""
 set _python_version=""
 set _issue_prefix=""
@@ -81,18 +81,29 @@ if %4=="" (
     set _reahl_project=%4
 )
 if %6=="" (
-    set /P _reset="Reste Project: "
+    set /P _reset="Reset Project: "
     ) else (
     set _reset=%6
 )
+set _project_dir=%_project_base_dir%\BEE
+if %_issue_prefix%==PP (
+    set _project_dir=%_project_base_dir%\PP
+) else if %_issue_prefix%==RTE (
+    set _project_dir=%_project_base_dir%\RTE
+)
 
-ECHO Project name:     %_project_name%
-ECHO Python version:   %_python_version%
-ECHO Issue prefix:     %_issue_prefix%
-ECHO Reahl Project:    %_reahl_project%
-ECHO Debug:            %_debug%
-ECHO VENV_PYTHON_BASE: %_python_base_dir%
-ECHO Reset project:    %_reset%
+ECHO Project name:      %_project_name%
+ECHO Python version:    %_python_version%
+ECHO Issue prefix:      %_issue_prefix%
+ECHO Reahl Project:     %_reahl_project%
+ECHO Debug:             %_debug%
+ECHO Reset project:     %_reset%
+ECHO SCRIPTS_DIR:       %_scripts_dir%
+ECHO PROJECT_DIR:       %_project_dir%
+ECHO PROJECTS_BASE_DIR: %_project_base_dir%
+ECHO VENV_BASE_DIR:     %_venv_base_dir%
+ECHO VENV_PYTHON_BASE:  %_python_base_dir%
+
 
 set /P _continue="Continue (Y/n): "
 if /I NOT "%_continue%"=="n" (
@@ -100,7 +111,7 @@ if /I NOT "%_continue%"=="n" (
 )
 
 if "%_continue%"=="Y" (
-    %_projects_dir:~0,2%
+    %_project_dir:~0,2%
     call deactivate
     %_python_base_dir%\Python%_python_version%\python -m venv --clear %_venv_base_dir%\%_project_name%_env
 
@@ -108,14 +119,14 @@ if "%_continue%"=="Y" (
     @ECHO %_debug%
     python.exe -m pip install --upgrade pip
 
-    IF NOT EXIST %_projects_dir%\%_project_name% (md %_projects_dir%\%_project_name%)
-    %_projects_dir:~0,2%
-    cd %_projects_dir%\%_project_name%
-    IF NOT EXIST %_projects_dir%\%_project_name%\requirements.txt ( ECHO git-it > %_projects_dir%\%_project_name%\requirements.txt )
-    IF NOT EXIST %_projects_dir%\%_project_name%\requirements_test.txt ( ECHO git-it > %_projects_dir%\%_project_name%\requirements_test.txt )
-    IF NOT EXIST %_projects_dir%\%_project_name%\.pre-commit-config.yaml CALL :CreatePreCommitConfigYaml
-    pip install --upgrade -r %_projects_dir%\%_project_name%\requirements.txt
-    pip install --upgrade -r %_projects_dir%\%_project_name%\requirements_test.txt
+    IF NOT EXIST %_project_dir%\%_project_name% (md %_project_dir%\%_project_name%)
+    %_project_dir:~0,2%
+    cd %_project_dir%\%_project_name%
+    IF NOT EXIST %_project_dir%\%_project_name%\requirements.txt ( ECHO git-it > %_project_dir%\%_project_name%\requirements.txt )
+    IF NOT EXIST %_project_dir%\%_project_name%\requirements_test.txt ( ECHO git-it > %_project_dir%\%_project_name%\requirements_test.txt )
+    IF NOT EXIST %_project_dir%\%_project_name%\.pre-commit-config.yaml CALL :CreatePreCommitConfigYaml
+    pip install --upgrade -r %_project_dir%\%_project_name%\requirements.txt
+    pip install --upgrade -r %_project_dir%\%_project_name%\requirements_test.txt
 
     IF "%_reset%"=="Y" (
         move %_scripts_dir%\venv_%_project_name%_setup_mandatory.bat %_scripts_dir%\Archive
@@ -134,7 +145,7 @@ if "%_continue%"=="Y" (
         IF /I "%_reahl_project%"=="Y" (
             ECHO python -m pip install --upgrade reahl[declarative,sqlite,mysql,dev,doc]>> %_scripts_dir%\venv_%_project_name%_install.bat
         )
-        ECHO IF EXIST "%_projects_dir%\%_project_name%\pyproject.toml" pip install -e .>> %_scripts_dir%\venv_%_project_name%_install.bat
+        ECHO IF EXIST "%_project_dir%\%_project_name%\pyproject.toml" pip install -e .>> %_scripts_dir%\venv_%_project_name%_install.bat
     )
 
     IF NOT EXIST %_scripts_dir%\venv_%_project_name%_setup_mandatory.bat (
@@ -142,10 +153,11 @@ if "%_continue%"=="Y" (
         ECHO @ECHO Running venv_%_project_name%_setup_mandatory.bat...>> %_scripts_dir%\venv_%_project_name%_setup_mandatory.bat
         ECHO SET VENV_PY_VER=%_python_version%>> %_scripts_dir%\venv_%_project_name%_setup_mandatory.bat
         ECHO SET GITIT_ISSUE_PREFIX=%_issue_prefix%>> %_scripts_dir%\venv_%_project_name%_setup_mandatory.bat
-        ECHO SET PYTHONPATH=%_projects_dir%\%_project_name%>> %_scripts_dir%\venv_%_project_name%_setup_mandatory.bat
+        ECHO SET PYTHONPATH=%_project_dir%\%_project_name%>> %_scripts_dir%\venv_%_project_name%_setup_mandatory.bat
+        ECHO SET PROJECT_DIR=%_project_dir%\%_project_name%>> %_scripts_dir%\venv_%_project_name%_setup_mandatory.bat
         IF %_init_python_base_dir%=="Y" (ECHO SET VENV_PYTHON_BASE=%_python_base_dir%)
         if /I "%_reahl_project%"=="Y" (
-            ECHO SET REAHLWORKSPACE=%_projects_dir%>> %_scripts_dir%\venv_%_project_name%_setup_mandatory.bat
+            ECHO SET REAHLWORKSPACE=%_project_dir%>> %_scripts_dir%\venv_%_project_name%_setup_mandatory.bat
             REM ECHO SET MYSQL_PWD=En0l@Gay>> %_scripts_dir%\venv_%_project_name%_setup_mandatory.bat
         )
     )
@@ -183,17 +195,17 @@ GOTO :Exit
 GOTO :Exit
 
 :CreatePreCommitConfigYaml
-ECHO repos:> %_projects_dir%\%_project_name%\.pre-commit-config.yaml
-ECHO   - repo: https://github.com/psf/black>> %_projects_dir%\%_project_name%\.pre-commit-config.yaml
-ECHO     rev: stable>> %_projects_dir%\%_project_name%\.pre-commit-config.yaml
-ECHO     hooks:>> %_projects_dir%\%_project_name%\.pre-commit-config.yaml
-ECHO     - id: black>> %_projects_dir%\%_project_name%\.pre-commit-config.yaml
-ECHO       language_version: python3>> %_projects_dir%\%_project_name%\.pre-commit-config.yaml
-ECHO   - repo: https://github.com/pycqa/flake8>> %_projects_dir%\%_project_name%\.pre-commit-config.yaml
-ECHO     rev: stable>> %_projects_dir%\%_project_name%\.pre-commit-config.yaml
-ECHO     hooks:>> %_projects_dir%\%_project_name%\.pre-commit-config.yaml
-ECHO     - id: flake8>> %_projects_dir%\%_project_name%\.pre-commit-config.yaml
-ECHO       language_version: python3>> %_projects_dir%\%_project_name%\.pre-commit-config.yaml
+ECHO repos:> %_project_dir%\%_project_name%\.pre-commit-config.yaml
+ECHO   - repo: https://github.com/psf/black>> %_project_dir%\%_project_name%\.pre-commit-config.yaml
+ECHO     rev: stable>> %_project_dir%\%_project_name%\.pre-commit-config.yaml
+ECHO     hooks:>> %_project_dir%\%_project_name%\.pre-commit-config.yaml
+ECHO     - id: black>> %_project_dir%\%_project_name%\.pre-commit-config.yaml
+ECHO       language_version: python3>> %_project_dir%\%_project_name%\.pre-commit-config.yaml
+ECHO   - repo: https://github.com/pycqa/flake8>> %_project_dir%\%_project_name%\.pre-commit-config.yaml
+ECHO     rev: stable>> %_project_dir%\%_project_name%\.pre-commit-config.yaml
+ECHO     hooks:>> %_project_dir%\%_project_name%\.pre-commit-config.yaml
+ECHO     - id: flake8>> %_project_dir%\%_project_name%\.pre-commit-config.yaml
+ECHO       language_version: python3>> %_project_dir%\%_project_name%\.pre-commit-config.yaml
 
 :Exit
 EXIT /B 0

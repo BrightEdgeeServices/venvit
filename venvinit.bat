@@ -9,37 +9,39 @@ IF /I "%2"=="ON" (
 )
 @ECHO %_debug%
 
-IF %ENVIRONMENT%==loc_dev CALL %SCRIPTS_DIR%\env_var_loc_dev.bat %_debug%
-
-set _venv_base_dir=d:\venv
-set _batch_dir=d:\dropbox\batch
-set _projects_dir=d:\Dropbox\Projects
-
+@ECHO %_debug%
 if "%1"=="" (
     set /P _project_name="Project name: "
     ) else (
     set _project_name=%1
 )
 
+IF %ENVIRONMENT%==loc_dev CALL %SCRIPTS_DIR%\env_var_loc_dev.bat %_debug%
+call %VENV_BASE_DIR%\%_project_name%_env\Scripts\deactivate.bat
+@ECHO %_debug%
+call %VENV_BASE_DIR%\%_project_name%_env\Scripts\activate.bat
+@ECHO %_debug%
+REM set _venv_base_dir=%VENV_BASE%
+REM set _batch_dir=%SCRIPTS_DIR%
+call %SCRIPTS_DIR%\venv_%_project_name%_setup_mandatory.bat %_project_name% %_debug%
+REM set _project_base_dir=%PROJECTS_BASE%
+
+
 FOR /D %%y IN (%TEMP%\%_project_name%_*) DO rd /S /Q %%y
 FOR /D %%y IN (%TEMP%\temp*) DO rd /S /Q %%y
 
-call %_venv_base_dir%\%_project_name%_env\Scripts\deactivate.bat
-call %_venv_base_dir%\%_project_name%_env\Scripts\activate.bat
-@ECHO %_debug%
-IF EXIST %_projects_dir%\%_project_name% GOTO ProjectFolder:
+IF EXIST %PROJECT_DIR% GOTO ProjectFolder:
 GOTO Default:
 
 :ProjectFolder
-%_projects_dir:~0,2%
-cd %_projects_dir%\%_project_name%
+%PROJECT_DIR:~0,2%
+cd %PROJECT_DIR%
 GOTO Exit:
 
 :Default
-%_projects_dir:~0,2%
-cd %_projects_dir%
+%VENV_PYTHON_BASE_DIR:~0,2%
+cd %VENV_PYTHON_BASE_DIR%
 GOTO Exit:
 
 :Exit
-call %_batch_dir%\venv_%_project_name%_setup_mandatory.bat %_project_name% %_debug%
-call %_batch_dir%\venv_%_project_name%_setup_custom.bat %_project_name% %_debug%
+call %SCRIPTS_DIR%\venv_%_project_name%_setup_custom.bat %_project_name% %_debug%
