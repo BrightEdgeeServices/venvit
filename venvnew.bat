@@ -90,6 +90,8 @@ if %_issue_prefix%==PP (
     set _project_dir=%_project_base_dir%\PP
 ) else if %_issue_prefix%==RTE (
     set _project_dir=%_project_base_dir%\RTE
+) else if %_issue_prefix%==Reahl (
+    set _project_dir=%_project_base_dir%\ReahlExamples
 )
 
 ECHO Project name:      %_project_name%
