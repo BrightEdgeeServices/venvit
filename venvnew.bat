@@ -155,11 +155,11 @@ if "%_continue%"=="Y" (
         ECHO @ECHO Running venv_%_project_name%_setup_mandatory.bat...>> %_scripts_dir%\venv_%_project_name%_setup_mandatory.bat
         ECHO SET VENV_PY_VER=%_python_version%>> %_scripts_dir%\venv_%_project_name%_setup_mandatory.bat
         ECHO SET GITIT_ISSUE_PREFIX=%_issue_prefix%>> %_scripts_dir%\venv_%_project_name%_setup_mandatory.bat
-        ECHO SET PYTHONPATH=%_project_dir%\%_project_name%>> %_scripts_dir%\venv_%_project_name%_setup_mandatory.bat
+        ECHO SET PYTHONPATH=%_project_dir%\%_project_name%\%_project_dir%\%_project_name\src%>> %_scripts_dir%\venv_%_project_name%_setup_mandatory.bat
         ECHO SET PROJECT_DIR=%_project_dir%\%_project_name%>> %_scripts_dir%\venv_%_project_name%_setup_mandatory.bat
         IF %_init_python_base_dir%=="Y" (ECHO SET VENV_PYTHON_BASE=%_python_base_dir%)
         if /I "%_reahl_project%"=="Y" (
-            ECHO SET REAHLWORKSPACE=%_project_dir%>> %_scripts_dir%\venv_%_project_name%_setup_mandatory.bat
+            ECHO SET REAHLWORKSPACE=%_project_base_dir%>> %_scripts_dir%\venv_%_project_name%_setup_mandatory.bat
             REM ECHO SET MYSQL_PWD=En0l@Gay>> %_scripts_dir%\venv_%_project_name%_setup_mandatory.bat
         )
     )
