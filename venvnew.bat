@@ -90,7 +90,7 @@ if %_issue_prefix%==PP (
     set _project_dir=%_project_base_dir%\PP
 ) else if %_issue_prefix%==RTE (
     set _project_dir=%_project_base_dir%\RTE
-) else if %_issue_prefix%==Reahl (
+) else if %_issue_prefix%==RE (
     set _project_dir=%_project_base_dir%\ReahlExamples
 )
 
@@ -145,7 +145,8 @@ if "%_continue%"=="Y" (
         ECHO pre-commit install>> %_scripts_dir%\venv_%_project_name%_install.bat
         ECHO pre-commit autoupdate>> %_scripts_dir%\venv_%_project_name%_install.bat
         IF /I "%_reahl_project%"=="Y" (
-            ECHO python -m pip install --upgrade reahl[declarative,sqlite,mysql,dev,doc]>> %_scripts_dir%\venv_%_project_name%_install.bat
+            REM ECHO python -m pip install --upgrade reahl[declarative,sqlite,mysql,dev,doc]>> %_scripts_dir%\venv_%_project_name%_install.bat
+            ECHO python -m pip install --upgrade reahl[all]>> %_scripts_dir%\venv_%_project_name%_install.bat
         )
         ECHO IF EXIST "%_project_dir%\%_project_name%\pyproject.toml" pip install -e .>> %_scripts_dir%\venv_%_project_name%_install.bat
     )
