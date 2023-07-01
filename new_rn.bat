@@ -1,4 +1,4 @@
-@echo on
+@echo off
 
 REM Check if currently in a Python virtual environment and deactivate if necessary
 deactivate >nul 2>&1
@@ -28,29 +28,104 @@ if exist "%project_name%" (
     exit /b
 )
 
-REM Check if the second argument is provided
+REM Check if the second argument is provided and validate it as "y" or "n"
 if "%~2"=="" (
+    :prompt_add_plop
     set /p "add_plop=Please state whether you would like to add plop templates? (y/n): "
+    if /i "%add_plop%"=="y" (
+        goto :continue
+    ) else (
+        if /i "%add_plop%"=="n" (
+            goto :continue
+        ) else (
+            echo Invalid input. Please enter "y" or "n".
+            goto :prompt_add_plop
+        )
+    )
 ) else (
-    set add_plop=%~2
+    :prompt_add_plop
+    if /i "%~2%"=="y" (
+        set "add_plop=y"
+    ) else (
+        if /i "%~2%"=="n" (
+            set "add_plop=n"
+        ) else (
+            echo Invalid input. Please enter "y" or "n".
+            goto :prompt_add_plop
+        )
+    )
 )
 
-REM Check if expo-cli is installed and get the version
-for /f "tokens=*" %%I in ('npm show expo-cli version --silent') do set "latest_version=%%I"
+:continue
 
-REM Define the desired version
-for /f "delims=" %%A in ('expo --version') do set "current_version=%%A"
-
-REM Compare the desired version with the latest version
-if "%current_version%" neq "%latest_version%" (
-    echo Installing the latest version of expo-cli...
-    call npm install -g expo-cli@latest
+REM Check if the third argument is provided and validate it as "Expo" or "PRN"
+if "%~3"=="" (
+    :prompt_project_type
+    echo project promt
+    set /p "project_type=Which type of project do you want? (Expo/Pure React Native (PRN)): "
+    if /i "%project_type%"=="Expo" (
+        goto :continue_project_type
+    ) else (
+        if /i "%project_type%"=="PRN" (
+            goto :continue_project_type
+        ) else (
+            echo Invalid input. Please enter "Expo" or "PRN".
+            goto :prompt_project_type
+        )
+    )
 ) else (
-    echo expo-cli is already up to date
+    :prompt_project_type
+    if /i "%~3%"=="Expo" (
+        set "project_type=Expo"
+        goto :continue_project_type
+    ) else (
+        if /i "%~3%"=="PRN" (
+            set "project_type=PRN"
+        ) else (
+            echo Invalid input. Please enter "Expo" or "PRN".
+        )
+    )
 )
 
-REM Run "expo init" with the provided project name and select the first template option
-call npx expo-cli init "%project_name%" --template blank
+:continue_project_type
+
+REM Check the project type and perform the appropriate version check
+if /i "%project_type%"=="Expo" (
+    REM Check if expo-cli is installed and get the version
+    for /f "tokens=*" %%I in ('npm show expo-cli version --silent') do set "latest_version=%%I"
+
+    REM Define the desired version
+    for /f "delims=" %%A in ('expo --version') do set "current_version=%%A"
+
+    REM Compare the desired version with the latest version
+    if "%current_version%" neq "%latest_version%" (
+        echo Installing the latest version of expo-cli...
+        call npm install -g expo-cli@latest
+    ) else (
+        echo expo-cli is already up to date
+    )
+) else (
+    REM Check if react-native-cli is installed and get the version
+    for /f "tokens=*" %%I in ('npm show react-native version --silent') do set "latest_version=%%I"
+
+    REM Define the desired version
+    for /f "delims=" %%A in ('react-native --version') do set "current_version=%%A"
+
+    REM Compare the desired version with the latest version
+    if "%current_version%" neq "%latest_version%" (
+        echo Installing the latest version of react-native-cli...
+        call npm install -g react-native-cli@latest
+    ) else (
+        echo react-native-cli is already up to date
+    )
+)
+
+REM Run "expo init" or "react-native init" with the provided project name and select the appropriate template option based on the project type
+if /i "%project_type%"=="Expo" (
+    call npx expo-cli init "%project_name%" --template blank
+) else (
+    call npx react-native init "%project_name%"
+)
 
 cd %project_name%
 
@@ -64,7 +139,7 @@ mkdir "src\Styles"
 
 REM If the user input is "y", copy the plop templates
 if /i "%add_plop%"=="y" (
-	call addplop.bat
+    call addplop.bat
 )
 
 echo Done
