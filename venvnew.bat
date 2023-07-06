@@ -39,8 +39,8 @@ ECHO Create new %1 virtual environment
 ECHO '
 
 set _display_help="N"
-IF NOT DEFINED ENVIRONMENT set _display_help="Y"
-IF NOT DEFINED SCRIPTS_DIR set _display_help="Y"
+IF NOT DEFINED ENVIRONMENT SET _display_help="Y"
+IF NOT DEFINED SCRIPTS_DIR SET _display_help="Y"
 IF %_display_help%=="Y" GOTO :DisplayEnvVarHelp
 
 IF %ENVIRONMENT%==loc_dev (CALL %SCRIPTS_DIR%\env_var_loc_dev.bat %_debug%)
@@ -156,7 +156,7 @@ if "%_continue%"=="Y" (
         ECHO @ECHO Running venv_%_project_name%_setup_mandatory.bat...>> %_scripts_dir%\venv_%_project_name%_setup_mandatory.bat
         ECHO SET VENV_PY_VER=%_python_version%>> %_scripts_dir%\venv_%_project_name%_setup_mandatory.bat
         ECHO SET GITIT_ISSUE_PREFIX=%_issue_prefix%>> %_scripts_dir%\venv_%_project_name%_setup_mandatory.bat
-        ECHO SET PYTHONPATH=%_project_dir%\%_project_name%\%_project_dir%\%_project_name\src%>> %_scripts_dir%\venv_%_project_name%_setup_mandatory.bat
+        ECHO SET PYTHONPATH=%_project_dir%\%_project_name%;%_project_dir%\%_project_name\src%>> %_scripts_dir%\venv_%_project_name%_setup_mandatory.bat
         ECHO SET PROJECT_DIR=%_project_dir%\%_project_name%>> %_scripts_dir%\venv_%_project_name%_setup_mandatory.bat
         IF %_init_python_base_dir%=="Y" (ECHO SET VENV_PYTHON_BASE=%_python_base_dir%)
         if /I "%_reahl_project%"=="Y" (
