@@ -18,13 +18,18 @@ echo        ^{
 echo          type: 'input', 
 echo          name: 'directory', 
 echo          message: 'Enter the Directory destination after src', 
-echo        ^} 
+echo        ^} ,
+echo        ^{
+echo           type: 'input',
+echo           name: 'fileType',
+echo           message: 'Type of file? ^(api/js/context^):',
+echo         },
 echo      ^], 
 echo      actions: ^[ 
 echo        ^{ 
 echo          type: 'add', 
 echo          path: 'src/^{^{directory^}^}/^{{name^}^}.js', 
-echo          templateFile: 'plopTemplates/js-file-template.hbs', 
+echo          templateFile: 'plopTemplates/^{^{fileType^}^}-file-template.hbs', 
 echo        ^}, 
 echo      ^], 
 echo    ^}^); 
@@ -50,3 +55,30 @@ echo ^}^);
 echo.
 echo export default CHANGE; 
 ) > "plopTemplates/js-file-template.hbs"
+
+echo plopTemplates/api-file-template.hbs
+
+(
+echo import axios from "axios";
+echo. 
+echo export default axios.create^(^{
+echo    baseURL: '',
+echo    headers: ^{
+echo        Authorization: 'Bearer '
+echo    ^}
+echo ^}^);
+) > "api-file-template.hbs"
+
+echo plopTemplates/context-file-template.hbs
+
+(
+echo import React from "react";
+echo.
+echo const CHANGEContext = React.createContext^(^);
+echo.
+echo export const CHANGEProvider = ^(^{ children ^}^) =^> ^{
+echo     return ^<CHANGEContext.Provider^>
+echo         ^{children^}
+echo     ^</CHANGEContext.Provider^>
+echo ^};
+) > "context-file-template.hbs"
