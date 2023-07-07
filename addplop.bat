@@ -67,7 +67,7 @@ echo    headers: ^{
 echo        Authorization: 'Bearer '
 echo    ^}
 echo ^}^);
-) > "api-file-template.hbs"
+) > "plopTemplates/api-file-template.hbs"
 
 echo plopTemplates/context-file-template.hbs
 
@@ -81,4 +81,6 @@ echo     return ^<CHANGEContext.Provider^>
 echo         ^{children^}
 echo     ^</CHANGEContext.Provider^>
 echo ^};
-) > "context-file-template.hbs"
+echo.
+echo export default CHANGEContext;
+) > "plopTemplates/context-file-template.hbs"
