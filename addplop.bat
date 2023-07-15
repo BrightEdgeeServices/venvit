@@ -39,8 +39,8 @@ echo  ^};
 echo plopTemplates/js-file-template.hbs
 
 (
-echo import React from "react;" 
-echo import ^{ View, StyleSheet, Text ^} from 'react-native;' 
+echo import React from "react"; 
+echo import ^{ View, StyleSheet, Text ^} from 'react-native'; 
 echo.
 echo const CHANGE = ^(^) =^> {
 echo     return ( 
