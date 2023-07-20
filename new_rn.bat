@@ -43,6 +43,19 @@ set "project_name=%~1"
 set "add_plop=%~2"
 set "project_type=%~3"
 
+REM Check if the project name already exists in the PROJECTS_BASE_DIR
+call :CheckIfDirectoryExists "%project_name%"
+if errorlevel 1 (
+    exit /b
+)
+
+REM Function to check if a directory exists in the current directory
+:CheckIfDirectoryExists
+if exist "%~1\" (
+    echo The project "%~1" already exists in the project base directory.
+    exit /b
+)
+
 REM Run "expo init" or "react-native init" with the provided project name and select the appropriate template option based on the project type
 if /i "%project_type%"=="Expo" (
     call npx create-expo-app "%project_name%" --template blank
@@ -56,12 +69,12 @@ REM Create the "src" directory in the newly created project
 mkdir "src"
 
 REM Create additional directories inside the "src" directory
-mkdir "src\components"
-mkdir "src\screens"
-mkdir "src\styles"
-mkdir "src\api"
-mkdir "src\hooks"
-mkdir "src\context"
+mkdir "src\components\__tests__"
+mkdir "src\screens\__tests__"
+mkdir "src\styles\__tests__"
+mkdir "src\api\__tests__"
+mkdir "src\hooks\__tests__"
+mkdir "src\context\__tests__"
 
 REM If the user input is "y", copy the plop templates
 if /i "%add_plop%"=="y" (

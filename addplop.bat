@@ -36,8 +36,37 @@ echo    ^}^);
 echo  ^};
 ) > "plopfile.js"
 
-echo plopTemplates/js-file-template.hbs
 
+echo plopfile.js
+(
+echo module.exports = function ^(plop^) ^{ 
+echo     plop.setGenerator^('js-file', ^{ 
+echo       description: 'Generate a JavaScript Test file', 
+echo       prompts: ^[ 
+echo         ^{ 
+echo           type: 'input', 
+echo           name: 'name', 
+echo           message: 'Enter the file name ^(without the .js extension^):', 
+echo         ^}, 
+echo         ^{ 
+echo           type: 'input', 
+echo           name: 'directory', 
+echo           message: 'Enter the Directory destination after src', 
+echo         ^} ,
+echo       ^], 
+echo       actions: ^[ 
+echo         ^{ 
+echo           type: 'add', 
+echo           path: 'src/^{^{directory^}^}/__tests__/^{^{name^}^}.js', 
+echo           templateFile: 'plopTemplates/tests-file-template.hbs', 
+echo         ^}, 
+echo       ^], 
+echo     ^}^); 
+echo   ^};
+) > "plopfile_Test.js"
+
+
+echo plopTemplates/js-file-template.hbs
 (
 echo import React from "react"; 
 echo import ^{ View, StyleSheet, Text ^} from 'react-native'; 
@@ -56,8 +85,8 @@ echo.
 echo export default CHANGE; 
 ) > "plopTemplates/js-file-template.hbs"
 
-echo plopTemplates/api-file-template.hbs
 
+echo plopTemplates/api-file-template.hbs
 (
 echo import axios from "axios";
 echo. 
@@ -69,8 +98,8 @@ echo    ^}
 echo ^}^);
 ) > "plopTemplates/api-file-template.hbs"
 
-echo plopTemplates/context-file-template.hbs
 
+echo plopTemplates/context-file-template.hbs
 (
 echo import React from "react";
 echo.
@@ -84,3 +113,14 @@ echo ^};
 echo.
 echo export default CHANGEContext;
 ) > "plopTemplates/context-file-template.hbs"
+
+
+echo plopTemplates/tests-file-template.hbs
+(
+echo import React from 'react';
+echo import ^{ render, fireEvent ^} from '@testing-library/react-native';
+echo.
+echo test^('CHANGEWHAT DOES THE TEST DO?', ^(^) =^> ^{
+echo.
+echo ^}^);
+) > "plopTemplates/tests-file-template.hbs"
