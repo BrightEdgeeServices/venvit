@@ -1,7 +1,16 @@
-REM Create the base structure for a company
-REM %1 is the root folder
-REm %2 is the company name 
-REm %3 is the year (yyyy)
+@ECHO ON
+IF /I "%4"=="ON" (
+    set _debug=ON
+    ) ELSE (
+    set _debug=OFF
+)
+IF %1=="" GOTO :AppHelp
+IF %2=="" GOTO :AppHelp
+IF %3=="" GOTO :AppHelp
+
+@ECHO %_debug%
+ECHO Create an accounting directory structure for a financial year
+ECHO '
 
 md %1\%2\%3\"Backup\Archive"
 md %1\%2\%3\"Books\Archive"
@@ -31,4 +40,19 @@ md %1\%2\%3\"Supplier Statements\Archive"
 md %1\%2\%3\"VAT\Archive"
 md %1\%2\%3\"Tax Statements\Archive"
 md %1\%2\%3\"Recons\Archive"
+GOTO :Exit
 
+:AppHelp
+@ECHO usage: CreateAccountDirStructure root_dir company_dir finacial_year_YYYY
+@ECHO where
+@ECHO  - root_dir:           Root dir where the compnay accounting folder resides
+@ECHO  - company_dir:        Existing directrory for accouts of the company
+@ECHO  - finacial_year_YYYY: Financial year for the accounts
+@ECHO  - debug:              ON or OFF
+ECHO '
+@ECHO eg. CreateAccountDirStructure d:\accounts XyzCOmpany 2024
+ECHO '
+GOTO :Exit
+
+:Exit
+EXIT /B 0
