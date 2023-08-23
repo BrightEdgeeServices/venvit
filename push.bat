@@ -10,7 +10,8 @@ IF %1=="" GOTO :AppHelp
 @ECHO %_debug%
 ECHO Push current branch to GitHub
 ECHO '
-rstcheck README.rst
+REM rstcheck README.rst
+pre-commit run --all-files
 gitit adda
 gitit commitcust -m %1
 gitit pushall
