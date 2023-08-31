@@ -123,14 +123,18 @@ if "%_continue%"=="Y" (
     @ECHO %_debug%
     python.exe -m pip install --upgrade pip
 
-    IF NOT EXIST %_project_dir%\%_project_name% (md %_project_dir%\%_project_name%)
+    IF NOT EXIST %_project_dir%\%_project_name% (
+        md %_project_dir%\%_project_name%
+        md %_project_dir%\%_project_name%\requirements
+    )
     %_project_dir:~0,2%
     cd %_project_dir%\%_project_name%
-    IF NOT EXIST %_project_dir%\%_project_name%\requirements.txt ( ECHO git-it > %_project_dir%\%_project_name%\requirements.txt )
-    IF NOT EXIST %_project_dir%\%_project_name%\requirements_test.txt ( ECHO git-it > %_project_dir%\%_project_name%\requirements_test.txt )
+    IF NOT EXIST %_project_dir%\%_project_name%\requirements\prod.txt ( ECHO. > %_project_dir%\%_project_name%\requirements\prod.txt )
+    IF NOT EXIST %_project_dir%\%_project_name%\requirements\dev.txt ( ECHO git-it > %_project_dir%\%_project_name%\requirements\dev.txt )
+    IF NOT EXIST %_project_dir%\%_project_name%\requirements\docs.txt ( ECHO. > %_project_dir%\%_project_name%\requirements\docs.txt )
     IF NOT EXIST %_project_dir%\%_project_name%\.pre-commit-config.yaml CALL :CreatePreCommitConfigYaml
-    pip install --upgrade -r %_project_dir%\%_project_name%\requirements.txt
-    pip install --upgrade -r %_project_dir%\%_project_name%\requirements_test.txt
+    pip install --upgrade -r %_project_dir%\%_project_name%\requirements\prod.txt
+    pip install --upgrade -r %_project_dir%\%_project_name%\requirements\dev.txt
 
     IF "%_reset%"=="Y" (
         move %_scripts_dir%\venv_%_project_name%_setup_mandatory.bat %_scripts_dir%\Archive
