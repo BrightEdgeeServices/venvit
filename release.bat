@@ -1,5 +1,8 @@
 REM CLS
 @ECHO OFF
+@ECHO **************************
+@ECHO * %date% %time% *
+@ECHO **************************
 IF /I "%2"=="ON" (
     set _debug=ON
     ) ELSE (

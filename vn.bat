@@ -155,7 +155,7 @@ if "%_continue%"=="Y" (
             REM ECHO python -m pip install --upgrade reahl[declarative,sqlite,mysql,dev,doc]>> %_scripts_dir%\venv_%_project_name%_install.bat
             ECHO python -m pip install --upgrade reahl[all]>> %_scripts_dir%\venv_%_project_name%_install.bat
         )
-        ECHO IF EXIST "%_project_dir%\%_project_name%\pyproject.toml" pip install -e .>> %_scripts_dir%\venv_%_project_name%_install.bat
+        ECHO IF EXIST "%_project_dir%\%_project_name%\pyproject.toml" pip install -e .[dev]>> %_scripts_dir%\venv_%_project_name%_install.bat
     )
 
     IF NOT EXIST %_scripts_dir%\venv_%_project_name%_setup_mandatory.bat (

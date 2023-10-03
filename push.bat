@@ -1,5 +1,8 @@
 REM CLS
 @ECHO OFF
+@ECHO **************************
+@ECHO * %date% %time% *
+@ECHO **************************
 IF /I "%2"=="ON" (
     set _debug=ON
     ) ELSE (
@@ -10,8 +13,9 @@ IF %1=="" GOTO :AppHelp
 @ECHO %_debug%
 ECHO Push current branch to GitHub
 ECHO '
-REM rstcheck README.rst
+rstcheck README.rst
 pre-commit run --all-files
+pytest tests
 gitit adda
 gitit commitcust -m %1
 gitit pushall
