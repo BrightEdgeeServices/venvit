@@ -1,0 +1,7 @@
+@ECHO %2 
+@ECHO Running venv_rte-db_setup_mandatory.bat...
+SET VENV_PY_VER=310
+SET GITIT_ISSUE_PREFIX=RTE
+SET PYTHONPATH=d:\GoogleDrive\Projects\RTE\rte-db;d:\GoogleDrive\Projects\RTE\rte-db\src
+SET PROJECT_DIR=d:\GoogleDrive\Projects\RTE\rte-db
+SET REAHLWORKSPACE=d:\GoogleDrive\Projects

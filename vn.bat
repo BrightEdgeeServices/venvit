@@ -125,16 +125,17 @@ if "%_continue%"=="Y" (
 
     IF NOT EXIST %_project_dir%\%_project_name% (
         md %_project_dir%\%_project_name%
-        md %_project_dir%\%_project_name%\requirements
+::        md %_project_dir%\%_project_name%\requirements
+        md %_project_dir%\%_project_name%\docs
     )
     %_project_dir:~0,2%
     cd %_project_dir%\%_project_name%
-    IF NOT EXIST %_project_dir%\%_project_name%\requirements\prod.txt ( ECHO. > %_project_dir%\%_project_name%\requirements\prod.txt )
-    IF NOT EXIST %_project_dir%\%_project_name%\requirements\dev.txt ( ECHO git-it > %_project_dir%\%_project_name%\requirements\dev.txt )
-    IF NOT EXIST %_project_dir%\%_project_name%\requirements\docs.txt ( ECHO. > %_project_dir%\%_project_name%\requirements\docs.txt )
+::    IF NOT EXIST %_project_dir%\%_project_name%\requirements\prod.txt ( ECHO. > %_project_dir%\%_project_name%\requirements\prod.txt )
+::  IF NOT EXIST %_project_dir%\%_project_name%\requirements\dev.txt ( ECHO git-it > %_project_dir%\%_project_name%\requirements\dev.txt )
+    IF NOT EXIST %_project_dir%\%_project_name%\requirements\docs.txt ( ECHO. > %_project_dir%\%_project_name%\docs\requirements_docs.txt )
     IF NOT EXIST %_project_dir%\%_project_name%\.pre-commit-config.yaml CALL :CreatePreCommitConfigYaml
-    pip install --upgrade -r %_project_dir%\%_project_name%\requirements\prod.txt
-    pip install --upgrade -r %_project_dir%\%_project_name%\requirements\dev.txt
+::    pip install --upgrade -r %_project_dir%\%_project_name%\requirements\prod.txt
+::    pip install --upgrade -r %_project_dir%\%_project_name%\requirements\dev.txt
 
     IF "%_reset%"=="Y" (
         move %_scripts_dir%\venv_%_project_name%_setup_mandatory.bat %_scripts_dir%\Archive
@@ -162,7 +163,7 @@ if "%_continue%"=="Y" (
         ECHO @ECHO Running venv_%_project_name%_setup_mandatory.bat...>> %_scripts_dir%\venv_%_project_name%_setup_mandatory.bat
         ECHO SET VENV_PY_VER=%_python_version%>> %_scripts_dir%\venv_%_project_name%_setup_mandatory.bat
         ECHO SET GITIT_ISSUE_PREFIX=%_issue_prefix%>> %_scripts_dir%\venv_%_project_name%_setup_mandatory.bat
-        ECHO SET PYTHONPATH=%_project_dir%\%_project_name%;%_project_dir%\%_project_name%\src>> %_scripts_dir%\venv_%_project_name%_setup_mandatory.bat
+        ECHO SET PYTHONPATH=%_project_dir%\%_project_name%;%_project_dir%\%_project_name%\src;%_project_dir%\%_project_name%\src\%_project_name%>> %_scripts_dir%\venv_%_project_name%_setup_mandatory.bat
         ECHO SET PROJECT_DIR=%_project_dir%\%_project_name%>> %_scripts_dir%\venv_%_project_name%_setup_mandatory.bat
         IF %_init_python_base_dir%=="Y" (ECHO SET VENV_PYTHON_BASE=%_python_base_dir%)
         if /I "%_reahl_project%"=="Y" (
