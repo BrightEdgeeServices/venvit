@@ -41,9 +41,10 @@ ECHO '
 set _display_help="N"
 IF NOT DEFINED ENVIRONMENT SET _display_help="Y"
 IF NOT DEFINED SCRIPTS_DIR SET _display_help="Y"
+IF NOT DEFINED SECRETS_DIR SET _display_help="Y"
 IF %_display_help%=="Y" GOTO :DisplayEnvVarHelp
 
-IF %ENVIRONMENT%==loc_dev (CALL %SCRIPTS_DIR%\env_var_loc_dev.bat %_debug%)
+IF %ENVIRONMENT%==loc_dev (CALL "%SECRETS_DIR%\env_var_dev.bat" %_debug%)
 
 set _python_base_dir=%VENV_PYTHON_BASE_DIR%
 set _venv_base_dir=%VENV_BASE_DIR%
@@ -201,7 +202,8 @@ GOTO :Exit
 :DisplayEnvVarHelp
 @ECHO Define the following environment variables for the current user"
 @ECHO ENVIRONMENT: Set current environment variable (loc_dev, rem_dev, qa, prod)
-@ECHO SCRIPTS_DIR:  Set the directory path for scripts
+@ECHO SCRIPTS_DIR: Set the directory path for scripts
+@ECHO SECRETS_DIR: Set the directory where the environment varables are stored with the secrtes
 GOTO :Exit
 
 :CreatePreCommitConfigYaml

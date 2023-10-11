@@ -15,7 +15,7 @@ if "%1"=="" (
     ) else (
     set _project_name=%1
 )
-IF %ENVIRONMENT%==loc_dev CALL %SCRIPTS_DIR%\env_var_loc_dev.bat %_project_name% %_debug%
+IF %ENVIRONMENT%==loc_dev CALL "%SECRETS_DIR%\env_var_dev.bat" %_project_name% %_debug%
 ) else if %ENVIRONMENT%==github_dev (
     set _project_dir=%_project_base_dir%\RTE
 call %VENV_BASE_DIR%\%_project_name%_env\Scripts\deactivate.bat
