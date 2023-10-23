@@ -17,13 +17,11 @@ if "%1"=="" (
 )
 IF %ENVIRONMENT%==loc_dev CALL "%SECRETS_DIR%\env_var_dev.bat" %_project_name% %_debug%
 ) else if %ENVIRONMENT%==github_dev (
-    set _project_dir=%_project_base_dir%\RTE
+    set _project_dir="%_project_base_dir%\%GITIT_ISSUE_PREFIX%"
 call %VENV_BASE_DIR%\%_project_name%_env\Scripts\deactivate.bat
 @ECHO %_debug%
 call %VENV_BASE_DIR%\%_project_name%_env\Scripts\activate.bat
 @ECHO %_debug%
-REM set _venv_base_dir=%VENV_BASE%
-REM set _batch_dir=%SCRIPTS_DIR%
 call %SCRIPTS_DIR%\venv_%_project_name%_setup_mandatory.bat %_project_name% %_debug%
 REM set _project_base_dir=%PROJECTS_BASE%
 

@@ -20,8 +20,8 @@ set "Hr=%dt:~8,2%" & set "Min=%dt:~10,2%" & set "Sec=%dt:~12,2%"
 
 REM CALL del_dt.bat
 git commit --allow-empty -m "Release %1"
-git tag -a %1+%YY%%MM%%DD%%Hr%%Min%%Sec% -m "Version %1"
-git push --tags
+git tag -f -a %1 -m "Version %1+%YY%%MM%%DD%%Hr%%Min%%Sec%"
+git push -f --tags
 REM git checkout master
 git branch --all
 GOTO :Exit

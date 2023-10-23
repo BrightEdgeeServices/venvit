@@ -13,10 +13,10 @@ IF %1=="" GOTO :AppHelp
 @ECHO %_debug%
 ECHO Push current branch to GitHub
 ECHO '
+gitit adda
 rstcheck README.rst
 pre-commit run --all-files
 pytest tests
-gitit adda
 gitit commitcust -m %1
 gitit pushall
 GOTO :Exit

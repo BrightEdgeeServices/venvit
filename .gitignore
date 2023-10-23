@@ -1,3 +1,7 @@
-.idea/
+.idea/*.iml
+.idea/*.xml
+.vscode/
 venv_*_install.bat
+venv_*_install.ps1
 venv_*_setup_*.bat
+venv_*_setup_*.ps1

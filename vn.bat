@@ -203,7 +203,7 @@ GOTO :Exit
 @ECHO Define the following environment variables for the current user"
 @ECHO ENVIRONMENT: Set current environment variable (loc_dev, rem_dev, qa, prod)
 @ECHO SCRIPTS_DIR: Set the directory path for scripts
-@ECHO SECRETS_DIR: Set the directory where the environment varables are stored with the secrtes
+@ECHO SECRETS_DIR: Set the directory where the environment variables are stored with the secrets
 GOTO :Exit
 
 :CreatePreCommitConfigYaml
