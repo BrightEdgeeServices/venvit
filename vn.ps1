@@ -47,13 +47,14 @@ function CreateVirtualEnvironment {
 
     # Determine project directory based on issue prefix
     switch ($_issue_prefix) {
-        "PP" { $_project_dir = Join-Path $_project_base_dir "PP" }
-        "RTE" { $_project_dir = Join-Path $_project_base_dir "RTE" }
-        "RE" { $_project_dir = Join-Path $_project_base_dir "ReahlExamples" }
-        "HdT" { $_project_dir = Join-Path $_project_base_dir "HdT" }
-        "DdT" { $_project_dir = Join-Path $_project_base_dir "DdT" }
-        default { $_project_dir = Join-Path $_project_base_dir "BEE" }
+        "PP" { $_institution_dir = Join-Path $_project_base_dir "PP" }
+        "RTE" { $_institution_dir = Join-Path $_project_base_dir "RTE" }
+        "RE" { $_institution_dir = Join-Path $_project_base_dir "ReahlExamples" }
+        "HdT" { $_institution_dir = Join-Path $_project_base_dir "HdT" }
+        "DdT" { $_institution_dir = Join-Path $_project_base_dir "DdT" }
+        default { $_institution_dir = Join-Path $_project_base_dir "BEE" }
     }
+    $_project_dir = Join-Path $_institution_dir $_project_name
 
     # Output configuration details
     Write-Host "Project name:      $_project_name"
@@ -62,6 +63,7 @@ function CreateVirtualEnvironment {
     Write-Host "Dev Mode:          $_dev_mode"
     Write-Host "Reset project:     $_reset"
     Write-Host "SCRIPTS_DIR:       $_scripts_dir"
+    Write-Host "INSTITUTION_DIR:   $_institution_dir"
     Write-Host "PROJECT_DIR:       $_project_dir"
     Write-Host "PROJECTS_BASE_DIR: $_project_base_dir"
     Write-Host "VENV_BASE_DIR:     $_venv_base_dir"
@@ -73,35 +75,38 @@ function CreateVirtualEnvironment {
     }
 
     if ($_continue -eq "Y") {
-        Set-Location -Path $_project_dir.Substring(0,2)
+        Set-Location -Path $_institution_dir.Substring(0,2)
         Write-Host $_python_base_dir\Python$_python_version\python -m venv --clear $_venv_base_dir\$_project_name"_env"
         deactivate
         & $_python_base_dir\Python$_python_version\python -m venv --clear $_venv_base_dir\$_project_name"_env"
         & $_venv_base_dir"\"$_project_name"_env\Scripts\activate.ps1"
         python.exe -m pip install --upgrade pip
 
-        if (-not (Test-Path $_project_dir"\"$_project_name)) {
-            New-Item -ItemType Directory -Path "$_project_dir\$_project_name" -Force
-            New-Item -ItemType Directory -Path "${_project_dir}\${_project_name}\docs" -Force
+        if (-not (Test-Path $_project_dir)) {
+            New-Item -ItemType Directory -Path "$_project_dir" -Force
+            New-Item -ItemType Directory -Path "$_project_dir\docs" -Force
         }
 
         Set-Location -Path $_project_dir
-        if (-not (Test-Path "$_project_dir\$_project_name\docs\requirements_docs.txt")) {
-            New-Item -ItemType File -Path "$_project_dir\$_project_name\docs\requirements_docs.txt" -Force
+        if (-not (Test-Path "$_project_dir\docs\requirements_docs.txt")) {
+            New-Item -ItemType File -Path "$_project_dir\docs\requirements_docs.txt" -Force
         }
-        if (-not (Test-Path "$_project_dir\$_project_name\.pre-commit-config.yaml")) { CreatePreCommitConfigYaml }
+        if (-not (Test-Path "$_project_dir\.pre-commit-config.yaml")) { CreatePreCommitConfigYaml }
 
+        $install_file_name = "venv_${_project_name}_install.ps1"
+        $script_install_path = Join-Path -Path $_scripts_dir -ChildPath $install_file_name
+        $mandatory_file_name = "venv_${_project_name}_setup_mandatory.ps1"
+        $script_mandatory_path = Join-Path $_scripts_dir -ChildPath ${mandatory_file_name}
         if ($_reset -eq "Y") {
-            Move-Item -Path $_scripts_dir"\venv"_$_project_name"_setup_mandatory.bat" -Destination "$_scripts_dir\Archive" -Force
-            Move-Item -Path $_scripts_dir"\venv"_$_project_name"_setup_mandatory.bat" -Destination "$_scripts_dir\Archive" -Force
+            Move-Item -Path $script_install_path -Destination "$_scripts_dir\Archive" -Force
+            Move-Item -Path $script_mandatory_path -Destination "$_scripts_dir\Archive" -Force
         }
 
         # Check if the install script does not exist
-        $install_file_name = "venv_${_project_name}_install.ps1"
-        $script_install_path = Join-Path -Path $_scripts_dir -ChildPath $install_file_name
         if (-not (Test-Path -Path $script_install_path)) {
             # Create the script and write the lines
-            Set-Content -Path $script_install_path -Value "Running ${install_file_name}..."
+            $s = 'Write-Host "Running ' + $install_file_name + '..."'
+            Set-Content -Path $script_install_path -Value $s
             Add-Content -Path $script_install_path -Value "git init"
             Add-Content -Path $script_install_path -Value "pip install --upgrade --force black"
             Add-Content -Path $script_install_path -Value "pip install --upgrade --force flake8"
@@ -109,31 +114,32 @@ function CreateVirtualEnvironment {
             Add-Content -Path $script_install_path -Value "pre-commit install"
             Add-Content -Path $script_install_path -Value "pre-commit autoupdate"
             if($_dev_mode -eq "Y") {
-                Add-Content -Path $script_install_path -Value "if (Test-Path -Path $_project_dir\$_project_name\pyproject.toml) {pip install -e .[dev]}"
+                Add-Content -Path $script_install_path -Value "if (Test-Path -Path $_project_dir\pyproject.toml) {pip install -e .[dev]}"
                 } else {
-                    Add-Content -Path $script_install_path -Value "if (Test-Path -Path $_project_dir\$_project_name\pyproject.toml) {pip install -e .}"
+                    Add-Content -Path $script_install_path -Value "if (Test-Path -Path $_project_dir\pyproject.toml) {pip install -e .}"
             }
         }
 
         # Check if the mandatory setup script does not exist
-        $mandatory_file_name = "venv_${_project_name}_setup_mandatory.ps1"
-        $script_mandatory_path = Join-Path $_scripts_dir -ChildPath ${mandatory_file_name}
         if (-not (Test-Path $script_mandatory_path)) {
-            Set-Content -Path $script_mandatory_path -Value "Running $mandatory_file_name..."
+            # Create the script and write the lines
+            $s = 'Write-Host "Running ' + $mandatory_file_name + '..."'
+            Set-Content -Path $script_mandatory_path -Value $s
             Add-Content -Path $script_mandatory_path -Value "`$env:VENV_PY_VER = '$_python_version'"
-            Add-Content -Path $script_mandatory_path -Value "`$env:GITIT_ISSUE_PREFIX = '$_issue_prefix'",
-            Add-Content -Path $script_mandatory_path -Value "`$env:PYTHONPATH = '$_project_dir\$_project_name;$_project_dir\$_project_name\src;$_project_dir\$_project_name\src\$_project_name'",
-            Add-Content -Path $script_mandatory_path -Value "`$env:PROJECT_DIR = '$_project_dir\$_project_name"
-            if ($_init_python_base_dir -eq $true) {
-                "$env:VENV_PYTHON_BASE = $_python_base_dir"
-            }
+            Add-Content -Path $script_mandatory_path -Value "`$env:GITIT_ISSUE_PREFIX = '$_issue_prefix'"
+            Add-Content -Path $script_mandatory_path -Value "`$env:PYTHONPATH = '$_project_dir;$_project_dir\src;$_project_dir\src\$_project_name'"
+            Add-Content -Path $script_mandatory_path -Value "`$env:PROJECT_DIR = '$_project_dir'"
+            # if ($_init_python_base_dir -eq $true) {
+            #     "$env:VENV_PYTHON_BASE = $_python_base_dir"
+            # }
         }
 
         # Check if the custom setup script does not exist
         $custom_file_name = "venv_${_project_name}_setup_custom.ps1"
         $script_custom_path = Join-Path $_scripts_dir -ChildPath ${custom_file_name}
         if (-not (Test-Path $script_custom_path)) {
-            Set-Content -Path $script_custom_path -Value "Write-Host Running $custom_file_name..."
+            $s = 'Write-Host "Running ' + $custom_file_name + '..."'
+            Set-Content -Path $script_custom_path -Value $s
         }
         $script_install_path
         $script_mandatory_path
@@ -160,7 +166,7 @@ function ShowEnvVarHelp {
 
 function CreatePreCommitConfigYaml {
     $pre_commit_file_name = ".pre-commit-config.yaml"
-    $pre_commit_path = Join-Path "${_project_dir}\${_project_name}" -ChildPath ${pre_commit_file_name}
+    $pre_commit_path = Join-Path "$_project_dir" -ChildPath $pre_commit_file_name
     Set-Content -Path $pre_commit_path -Value "repos:"
     Add-Content -Path $pre_commit_path -Value "  - repo: https://github.com/psf/black"
     Add-Content -Path $pre_commit_path -Value "    rev: stable"
