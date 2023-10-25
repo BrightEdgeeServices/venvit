@@ -17,7 +17,6 @@ function InitVirtualEnvironment {
     }
     # Set local variables from environment variables
     $_project_base_dir = $env:PROJECTS_BASE_DIR
-    $_project_dir = $env:PROJECT_DIR
     $_scripts_dir = $env:SCRIPTS_DIR
     $_secrets_dir = $env:SECRETS_DIR
     $_venv_base_dir = $env:VENV_BASE_DIR
@@ -30,6 +29,7 @@ function InitVirtualEnvironment {
     deactivate
     & "$_venv_dir\Scripts\activate.ps1"
     & "${_scripts_dir}\venv_${_project_name}_setup_mandatory.ps1" $_project_name
+    $_project_dir = $env:PROJECT_DIR
 
     # Remove temporary directories from previous sessions
     Get-ChildItem -Path $env:TEMP -Directory -Filter "$_project_name`_*" | Remove-Item -Recurse -Force

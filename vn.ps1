@@ -209,7 +209,7 @@ to "Y", the modules in the [dev] section of the pyproject.toml will also be inst
 
     # Project Linked PowerShell Scripts
 @"
-    Project Linked PowerShell Scripts:
+    Support PowerShell Scripts:
     ----------------------------------
     This script will create three additional PowerShell scripts. These scripts are 
     specific to the project and assist in the reinstallation and activation of the 
@@ -228,7 +228,11 @@ to "Y", the modules in the [dev] section of the pyproject.toml will also be inst
         An optional script for custom configuration instructions. It is called during 
         both installation (vn.ps1) and initialization (vi.ps1) of the virtual environment.
 
-    Note: '$project_name' is the first parameter for vn.ps1.
+    Notes: 
+    1. '$project_name' is the first parameter for vn.ps1.
+    2. The three Support PowerShell Scritps are not pushed to the repository.  These files
+       are specic to the macine it is installed on.  If the loca repository is in cloud 
+       storage, it will be synced to the othr installations of the user.
 "@ | Write-Host
 
     Write-Host $separator -ForegroundColor Cyan
