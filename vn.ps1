@@ -1,4 +1,25 @@
 # Define a function to handle creating a new virtual environment
+function CreatePreCommitConfigYaml {
+    $pre_commit_file_name = ".pre-commit-config.yaml"
+    $pre_commit_path = Join-Path -Path $_project_dir -ChildPath $pre_commit_file_name
+
+    $content = @"
+repos:
+  - repo: https://github.com/psf/black
+    rev: stable
+    hooks:
+    - id: black
+      language_version: python3
+  - repo: https://github.com/pycqa/flake8
+    rev: stable
+    hooks:
+    - id: flake8
+      language_version: python3
+"@
+
+    Set-Content -Path $pre_commit_path -Value $content
+}
+
 function CreateVirtualEnvironment {
     param (
         [string]$_project_name,
@@ -12,8 +33,8 @@ function CreateVirtualEnvironment {
     # Clear-Host
 
     # Show help if no project name is provided
-    if (-not $_project_name) {
-        ShowHelp
+    if (-not $_project_name -or $_project_name -eq "-h") {
+            ShowHelp
         return
     }
 
@@ -73,7 +94,7 @@ function CreateVirtualEnvironment {
     if ($_continue -eq "Y") {
         Set-Location -Path $_institution_dir.Substring(0,2)
         Write-Host $_python_base_dir\Python$_python_version\python -m venv --clear $_venv_base_dir\$_project_name"_env"
-        deactivate
+        & deactivate  2>$null
         & $_python_base_dir\Python$_python_version\python -m venv --clear $_venv_base_dir\$_project_name"_env"
         & $_venv_base_dir"\"$_project_name"_env\Scripts\activate.ps1"
         python.exe -m pip install --upgrade pip
@@ -89,56 +110,87 @@ function CreateVirtualEnvironment {
         }
         if (-not (Test-Path "$_project_dir\.pre-commit-config.yaml")) { CreatePreCommitConfigYaml }
 
-        $install_file_name = "venv_${_project_name}_install.ps1"
-        $script_install_path = Join-Path -Path $_scripts_dir -ChildPath $install_file_name
-        $mandatory_file_name = "venv_${_project_name}_setup_mandatory.ps1"
-        $script_mandatory_path = Join-Path $_scripts_dir -ChildPath ${mandatory_file_name}
+        # $install_file_name = "venv_${_project_name}_install.ps1"
+        # $script_install_path = Join-Path -Path $_scripts_dir -ChildPath $install_file_name
+        # $mandatory_file_name = "venv_${_project_name}_setup_mandatory.ps1"
+        # $script_mandatory_path = Join-Path $_scripts_dir -ChildPath ${mandatory_file_name}
+        $_support_scripts = @(
+            "venv_${_project_name}_install.ps1",
+            "venv_${_project_name}_setup_mandatory.ps1"
+        )
+        $_archive_dir = Join-Path -Path $_scripts_dir -ChildPath "Archive"
         if ($_reset -eq "Y") {
-            Move-Item -Path $script_install_path -Destination "$_scripts_dir\Archive" -Force
-            Move-Item -Path $script_mandatory_path -Destination "$_scripts_dir\Archive" -Force
+            foreach ($_file_name in $_support_scripts) {
+                $_script_path = Join-Path -Path $_scripts_dir -ChildPath $_file_name
+                MoveFileToArchiveIfExists -_script_path $_script_path -_archive_dir $_archive_dir
+            }
         }
 
         # Check if the install script does not exist
-        if (-not (Test-Path -Path $script_install_path)) {
+        $_script_install_path = Join-Path -Path $_scripts_dir -ChildPath $_support_scripts[0]
+        if (-not (Test-Path -Path $_script_install_path)) {
             # Create the script and write the lines
-            $s = 'Write-Host "Running ' + $install_file_name + '..."'
-            Set-Content -Path $script_install_path -Value $s
-            Add-Content -Path $script_install_path -Value "git init"
-            Add-Content -Path $script_install_path -Value "pip install --upgrade --force black"
-            Add-Content -Path $script_install_path -Value "pip install --upgrade --force flake8"
-            Add-Content -Path $script_install_path -Value "pip install --upgrade --force pre-commit"
-            Add-Content -Path $script_install_path -Value "pre-commit install"
-            Add-Content -Path $script_install_path -Value "pre-commit autoupdate"
+            $s = 'Write-Host "Running ' + $_support_scripts[0] + '..."'
+            Set-Content -Path $_script_install_path -Value $s
+            Add-Content -Path $_script_install_path -Value "git init"
+            Add-Content -Path $_script_install_path -Value "pip install --upgrade --force black"
+            Add-Content -Path $_script_install_path -Value "pip install --upgrade --force flake8"
+            Add-Content -Path $_script_install_path -Value "pip install --upgrade --force pre-commit"
+            Add-Content -Path $_script_install_path -Value "pre-commit install"
+            Add-Content -Path $_script_install_path -Value "pre-commit autoupdate"
             if($_dev_mode -eq "Y") {
-                Add-Content -Path $script_install_path -Value "if (Test-Path -Path $_project_dir\pyproject.toml) {pip install -e .[dev]}"
+                Add-Content -Path $_script_install_path -Value "if (Test-Path -Path $_project_dir\pyproject.toml) {pip install -e .[dev]}"
                 } else {
-                    Add-Content -Path $script_install_path -Value "if (Test-Path -Path $_project_dir\pyproject.toml) {pip install -e .}"
+                    Add-Content -Path $_script_install_path -Value "if (Test-Path -Path $_project_dir\pyproject.toml) {pip install -e .}"
             }
         }
 
         # Check if the mandatory setup script does not exist
-        if (-not (Test-Path $script_mandatory_path)) {
+        $_script_mandatory_path = Join-Path -Path $_scripts_dir -ChildPath $_support_scripts[1]
+        if (-not (Test-Path $_script_mandatory_path)) {
             # Create the script and write the lines
-            $s = 'Write-Host "Running ' + $mandatory_file_name + '..."'
-            Set-Content -Path $script_mandatory_path -Value $s
-            Add-Content -Path $script_mandatory_path -Value "`$env:VENV_PY_VER = '$_python_version'"
-            Add-Content -Path $script_mandatory_path -Value "`$env:GITIT_ISSUE_PREFIX = '$_institution'"
-            Add-Content -Path $script_mandatory_path -Value "`$env:PYTHONPATH = '$_project_dir;$_project_dir\src;$_project_dir\src\$_project_name'"
-            Add-Content -Path $script_mandatory_path -Value "`$env:PROJECT_DIR = '$_project_dir'"
+            $s = 'Write-Host "Running ' + $_support_scripts[1] + '..."'
+            Set-Content -Path $_script_mandatory_path -Value $s
+            Add-Content -Path $_script_mandatory_path -Value "`$env:VENV_PY_VER = '$_python_version'"
+            Add-Content -Path $_script_mandatory_path -Value "`$env:GITIT_ISSUE_PREFIX = '$_institution'"
+            Add-Content -Path $_script_mandatory_path -Value "`$env:PYTHONPATH = '$_project_dir;$_project_dir\src;$_project_dir\src\$_project_name'"
+            Add-Content -Path $_script_mandatory_path -Value "`$env:PROJECT_DIR = '$_project_dir'"
         }
 
         # Check if the custom setup script does not exist
-        $custom_file_name = "venv_${_project_name}_setup_custom.ps1"
-        $script_custom_path = Join-Path $_scripts_dir -ChildPath ${custom_file_name}
-        if (-not (Test-Path $script_custom_path)) {
-            $s = 'Write-Host "Running ' + $custom_file_name + '..."'
-            Set-Content -Path $script_custom_path -Value $s
+        $_custom_file_name = "venv_${_project_name}_setup_custom.ps1"
+        $_script_custom_path = Join-Path $_scripts_dir -ChildPath ${_custom_file_name}
+        if (-not (Test-Path $_script_custom_path)) {
+            $s = 'Write-Host "Running ' + $_custom_file_name + '..."'
+            Set-Content -Path $_script_custom_path -Value $s
         }
-        $script_install_path
-        $script_mandatory_path
-        $script_custom_path
+        & $_script_install_path
+        & $_script_mandatory_path
+        & $_script_custom_path
     }
 }
+
+function MoveFileToArchiveIfExists {
+    param (
+        [string]$_script_path,
+        [string]$_archive_dir
+    )
+
+    # Check if the file exists
+    if (Test-Path $_script_path) {
+        # Ensure the archive directory exists
+        if (-not (Test-Path $_archive_dir)) {
+            New-Item -Path $_archive_dir -ItemType Directory
+        }
+
+        # Move the file to the archive directory
+        Move-Item -Path $_script_path -Destination $_archive_dir -Force
+        Write-Host "Moved $($_script_path) to $($_archive_dir)."
+    } else {
+        Write-Host "File $($_script_path) does not exist."
+    }
+}
+
 
 function ShowHelp {
     $separator = "-" * 80
@@ -202,6 +254,7 @@ to "Y", the modules in the [dev] section of the pyproject.toml will also be inst
     Usage:
     ------
     vn.ps1 ProjectName PythonVer Institution DevMode ResetScripts
+    vr.ps1 -h
 
     Parameters:
     1. ProjectName:  The name of the project.
@@ -214,31 +267,28 @@ to "Y", the modules in the [dev] section of the pyproject.toml will also be inst
     Write-Host $separator -ForegroundColor Cyan
 }
 
-
 function ShowEnvVarHelp {
-    Write-Host "Make sure the following system environment variables are set.  See the help for more detail"
-    Write-Host "ENVIRONMENT"
-    Write-Host "PROJECTS_BASE_DIR"
-    Write-Host "SCRIPTS_DIR"
-    Write-Host "SECRETS_DIR"
-    Write-Host "VENV_BASE_DIR"
-    Write-Host "VENV_PYTHON_BASE_DIR"
-}
+    Write-Host "Make sure the following system environment variables are set. See the help for more detail." -ForegroundColor Cyan
 
-function CreatePreCommitConfigYaml {
-    $pre_commit_file_name = ".pre-commit-config.yaml"
-    $pre_commit_path = Join-Path "$_project_dir" -ChildPath $pre_commit_file_name
-    Set-Content -Path $pre_commit_path -Value "repos:"
-    Add-Content -Path $pre_commit_path -Value "  - repo: https://github.com/psf/black"
-    Add-Content -Path $pre_commit_path -Value "    rev: stable"
-    Add-Content -Path $pre_commit_path -Value "    hooks:"
-    Add-Content -Path $pre_commit_path -Value "    - id: black"
-    Add-Content -Path $pre_commit_path -Value "      language_version: python3"
-    Add-Content -Path $pre_commit_path -Value "  - repo: https://github.com/pycqa/flake8"
-    Add-Content -Path $pre_commit_path -Value "    rev: stable"
-    Add-Content -Path $pre_commit_path -Value "    hooks:"
-    Add-Content -Path $pre_commit_path -Value "    - id: flake8"
-    Add-Content -Path $pre_commit_path -Value "      language_version: python3"
+    $_env_vars = @(
+        @("ENVIRONMENT", $env:ENVIRONMENT),
+        @("PROJECTS_BASE_DIR", "$env:PROJECTS_BASE_DIR"),
+        @("SCRIPTS_DIR", "$env:SCRIPTS_DIR"),
+        @("SECRETS_DIR", "$env:SECRETS_DIR"),
+        @("VENV_BASE_DIR", "$env:VENV_BASE_DIR"),
+        @("VENV_PYTHON_BASE_DIR", "$env:VENV_PYTHON_BASE_DIR")
+    )
+
+    foreach ($var in $_env_vars) {
+        if ([string]::IsNullOrEmpty($var[1])) {
+            Write-Host $var[0] -ForegroundColor Red -NoNewline
+            Write-Host " - Not Set"
+        } else {
+            Write-Host $var[0] -ForegroundColor Green -NoNewline
+            $s = " - Set to: " +  $var[1]
+            Write-Host $s
+        }
+    }
 }
 
 function ReadYesOrNo {
@@ -261,6 +311,5 @@ function ReadYesOrNo {
 Write-Host ''
 Write-Host ''
 Write-Host '=[ START ]======================================================================' -ForegroundColor Blue
-Write-Host 'Create a new virtual enviroment' -ForegroundColor Green
 CreateVirtualEnvironment -_project_name $args[0] -_python_version $args[1] -_institution $args[2] -_dev_mode $args[3] -_reset $args[4]
 Write-Host '-[ END ]------------------------------------------------------------------------' -ForegroundColor Cyan
