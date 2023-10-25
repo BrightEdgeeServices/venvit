@@ -125,9 +125,6 @@ function CreateVirtualEnvironment {
             Add-Content -Path $script_mandatory_path -Value "`$env:GITIT_ISSUE_PREFIX = '$_institution'"
             Add-Content -Path $script_mandatory_path -Value "`$env:PYTHONPATH = '$_project_dir;$_project_dir\src;$_project_dir\src\$_project_name'"
             Add-Content -Path $script_mandatory_path -Value "`$env:PROJECT_DIR = '$_project_dir'"
-            # if ($_init_python_base_dir -eq $true) {
-            #     "$env:VENV_PYTHON_BASE = $_python_base_dir"
-            # }
         }
 
         # Check if the custom setup script does not exist
