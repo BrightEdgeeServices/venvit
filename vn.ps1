@@ -141,120 +141,79 @@ function CreateVirtualEnvironment {
 }
 
 function ShowHelp {
-    Write-Host 'This script will create a Python virtual environment.  It will use some'
-    Write-Host 'environemnt vaiables and some command line parameters to complete the'
-    Write-Host 'installation.'
-    Write-Host 'If the  pyprject.toml file elready exist in the project directory the python'
-    Write-Host 'modules will be installed acordingly.  If _dev_mode = "Y" command line '
-    Write-Host 'parameter is "Y", the modules in the [dev] section will also be installed.'
-    Write-Host ''
-    Write-Host 'Project Linked Powershell Scripts' -ForegroundColor Yellow
-    Write-Host 'It will create three more PowerShell scripts.  These scripts are used during'
-    Write-Host 'reinstallation and activation of the virtual environment and ar specific to the'
-    Write-Host 'project.'
-    Write-Host ''
-    Write-Host '- venv_' -NoNewline
-    Write-Host '$_project_name' -ForegroundColor Red -NoNewline
-    Write-Host '_install.ps1'
-    Write-Host '  This scrip contains specific installation instructions for this project.'
-    Write-Host '  If the script does not exist i.e. when the virtual environment is created for'
-    Write-Host '  the first time it will create the script and add default instructions.  You'
-    Write-Host '  can alter/add instructions to this script which will be executed during the'
-    Write-Host '  next installation.  However, it is not recomended. Rather use the setup_custom'
-    Write-Host '  script.'
-    Write-Host '  If the script do exist i.e. it is not the first time the virtual environment is'
-    Write-Host '  created and/or the _reset parameter is "N", this script will be called.'
-    Write-Host '  This script will only be called during installation (vn.ps1) of the virtual'
-    Write-Host '  environment.'
-    Write-Host '  It will be moved to the Archive sub direcotry and a new one (default) created '
-    Write-Host '  if the _reset command line parameter is "Y"'
-    Write-Host '  Removing the virtual environment through vr.ps1 will move this script to the Archive'
-    Write-Host '  sub direcotry.'
-    Write-Host '  '
-    Write-Host '- venv_' -NoNewline
-    Write-Host '$_project_name' -ForegroundColor Red -NoNewline
-    Write-Host '_setup_mandatory.ps1'
-    Write-Host '  This script will execute some mandatory instructions for the Bright Edge'
-    Write-Host '  development environment.  It is called at the end of the installation (vn.ps1)'
-    Write-Host '  and as early as possible during initialization (vi.ps1).  It contains instructions'
-    Write-Host '  necessary for successfull initialization.'
-    Write-Host '  If the script does not exist i.e. when the virtual environment is created for'
-    Write-Host '  the first time it will create the script and add default instructions.  You'
-    Write-Host '  can alter/add instructions to this script which will be executed during the'
-    Write-Host '  next installation (vn.ps1) and initialization (vi.ps1).  However, it is not'
-    Write-Host '  recomended. Rather use the setup_custom script.'
-    Write-Host '  If the script does exist i.e. it is not the first time the virtual environment is'
-    Write-Host '  created and/or the _reset parameter is "N", this script will be called.'
-    Write-Host '  This script will be called during installation (vn.ps1) and initialization (vi.ps1)'
-    Write-Host '  of the virtual environment.'
-    Write-Host '  This script will be moved to the Archive sub direcotry and a new one (default) created '
-    Write-Host '  if the _reset command line parameter is "Y"'
-    Write-Host '  Removing the virtual environment through vr.ps1 will move this script to the Archive'
-    Write-Host '  sub direcotry.'
-    Write-Host '  '
-    Write-Host '- venv_' -NoNewline
-    Write-Host '$_project_name' -ForegroundColor Red -NoNewline
-    Write-Host '_setup_custom.ps1'
-    Write-Host '  Use this script to add your own custom configuration instructions for the environment. '
-    Write-Host '  It is called at the end of the installation (vn.ps1) and as late as possible during'
-    Write-Host '  initialization (vi.ps1).'
-    Write-Host '  If the script does not exist i.e. when the virtual environment is created for the'
-    Write-Host '  first time it will create the script and add default instructions.  You can alter/add'
-    Write-Host '  instructions to this script which will be executed during the next installation (vn.ps1)'
-    Write-Host '  and initialization (vi.ps1).  This script is an empty shell on installation.'
-    Write-Host '  If the script does exist i.e. it is not the first time the virtual environment is'
-    Write-Host '  created, this script will be called.'
-    Write-Host '  This script will be called during installation (vn.ps1) and initialization (vi.ps1)'
-    Write-Host '  of the virtual environment.'
-    Write-Host '  It will be not be moved to the Archive sub direcotry if the _reset command line'
-    Write-Host '  parameter is "Y"'
-    Write-Host '  Removing the virtual environment through vr.ps1 will move this script to the Archive'
-    Write-Host '  sub direcotry.'
-    Write-Host '  '
-    Write-Host '  * ' -NoNewline
-    Write-Host '$_project_name ' -ForegroundColor Red -NoNewline
-    Write-Host 'is the first paramater for vn.ps1'
-    Write-Host ''
-    Write-Host 'Environment Variables' -ForegroundColor Yellow
-    Write-Host 'The following enviroment variables must be set i.e. configured as system environment'
-    Write-Host 'variables prior to starting the PowerShell.  You can use the "Get-ChildItem Env:"'
-    Write-Host 'command in a PowerShell to show the environment variables.'
-    Write-Host '- ENVIRONMENT ' -ForegroundColor Red -NoNewline
-    Write-Host '= loc_dev'
-    Write-Host '  Sets environment i.e. development, github or prod and will call the relevant scripts'
-    Write-Host '  to set the secrets for the ewnvironment'
-    Write-Host '  c:\Dropbox\Projects\BEE for projects owned by Bright Edge eServices'
-    Write-Host '- PROJECTS_BASE_DIR ' -ForegroundColor Red -NoNewline
-    Write-Host '= d:\Dropbox\Projects'
-    Write-Host '  The directory where all the institutions are created with their projects i.e.'
-    Write-Host '  c:\Dropbox\Projects\BEE for projects owned by Bright Edge eServices'
-    Write-Host '  c:\Dropbox\Projects\HdT for personal projects'
-    Write-Host '  c:\Dropbox\Projects\RTE for RealTime Events projects'
-    Write-Host '  etc...'
-    Write-Host '- SECRETS_DIR ' -ForegroundColor Red -NoNewline
-    Write-Host '= g:\Google Drive\Secrets'
-    Write-Host '  A Bright Edge eServices company shared drive where all the secrets are stored for the '
-    Write-Host '  company and are used during installation.  Do not store your own personal secretes here.'
-    Write-Host '- SCRIPTS_DIR ' -ForegroundColor Red -NoNewline
-    Write-Host '= d:\GoogleDrive\Batch'
-    Write-Host '  The directory where this script resides.  It should also be in your path.'
-    Write-Host '- VENV_BASE_DIR ' -ForegroundColor Red -NoNewline
-    Write-Host '= c:\venv'
-    Write-Host '  Al the virtual environments will be installed here with a "_env" suffix i.e.'
-    Write-Host '  c:\venv\myproject_env.  This dicrecotry should be preferably  not on a cloud storage'
-    Write-Host '- VENV_PYTHON_BASE_DIR ' -ForegroundColor Red -NoNewline
-    Write-Host '= c:\Python'
-    Write-Host '  Install the various versions of Pyton in sub directories i.e. c:\Python\Python39 and'
-    Write-Host '  c:\Python\Python310.  These installations will be used to create the virtual environments'
-    Write-Host ''
-    Write-Host 'usage: vn ProjectName PythonVer Institution DevMode ResetScripts'
-    Write-Host 'where'
-    Write-Host ' - ProjectName:  The name of the project.'
-    Write-Host ' - PythonVer:    The Python version installed in the virtual environment'
-    Write-Host ' - Institution:  Accronym of institution ownign the project.'
-    Write-Host ' - DevMode:      Install [dev] modules in pyproject.toml'
-    Write-Host ' - ResetScripts: Move venv_project_name_setup_mandatory.bat and venv_project_name_install.bat to Archive.'
+    $separator = "-" * 80
+    Write-Host $separator -ForegroundColor Cyan
+    
+    # Introduction
+@"
+This script, 'vn.ps1', creates a Python virtual environment. It uses a combination 
+of environment variables and command line parameters to set up the environment.
+If a 'pyproject.toml' file already exists in the project directory, Python modules 
+will be installed accordingly. If the '_dev_mode' command line parameter is set 
+to "Y", the modules in the [dev] section of the pyproject.toml will also be installed.
+"@ | Write-Host
+
+    Write-Host $separator -ForegroundColor Cyan
+
+    # Project Linked PowerShell Scripts
+@"
+    Project Linked PowerShell Scripts:
+    ----------------------------------
+    This script will create three additional PowerShell scripts. These scripts are 
+    specific to the project and assist in the reinstallation and activation of the 
+    virtual environment:
+
+    1. venv_'${project_name}'_install.ps1:
+        Contains specific installation instructions for this project. It is only called 
+        during the installation (vn.ps1) of the virtual environment.
+
+    2. venv_'${project_name}'_setup_mandatory.ps1:
+        Contains mandatory instructions necessary for a successful initialization. It is 
+        called during both installation (vn.ps1) and initialization (vi.ps1) of the 
+        virtual environment.
+
+    3. venv_'${project_name}'_setup_custom.ps1:
+        An optional script for custom configuration instructions. It is called during 
+        both installation (vn.ps1) and initialization (vi.ps1) of the virtual environment.
+
+    Note: '$project_name' is the first parameter for vn.ps1.
+"@ | Write-Host
+
+    Write-Host $separator -ForegroundColor Cyan
+
+    # Environment Variables
+@"
+    Environment Variables:
+    ----------------------
+    Prior to starting the PowerShell script, ensure these environment variables are set.
+
+    1. ENVIRONMENT: Sets the development environment. Possible values: loc_dev, github_dev, prod, etc.
+    2. PROJECTS_BASE_DIR: The directory for all projects (e.g., d:\Dropbox\Projects).
+    3. SECRETS_DIR: Directory for storing secrets (e.g., g:\Google Drive\Secrets).
+    4. SCRIPTS_DIR: Directory where this script resides.
+    5. VENV_BASE_DIR: Directory for virtual environments (e.g., c:\venv).
+    6. VENV_PYTHON_BASE_DIR: Directory for Python installations (e.g., c:\Python).
+"@ | Write-Host
+
+    Write-Host $separator -ForegroundColor Cyan
+
+    # Usage
+@"
+    Usage:
+    ------
+    vn.ps1 ProjectName PythonVer Institution DevMode ResetScripts
+
+    Parameters:
+    1. ProjectName:  The name of the project.
+    2. PythonVer:    Python version for the virtual environment.
+    3. Institution:  Acronym for the institution owning the project.
+    4. DevMode:      If "Y", installs [dev] modules from pyproject.toml.
+    5. ResetScripts: If "Y", moves certain scripts to the Archive directory.
+"@ | Write-Host
+
+    Write-Host $separator -ForegroundColor Cyan
 }
+
 
 function ShowEnvVarHelp {
     Write-Host "Make sure the following system environment variables are set.  See the help for more detail"
@@ -301,7 +260,7 @@ function ReadYesOrNo {
 # You might want to pass parameters in a different way, depending on how you plan to use the script
 Write-Host ''
 Write-Host ''
-Write-Host '=[ START ]====================================================================' -ForegroundColor Blue
+Write-Host '=[ START ]======================================================================' -ForegroundColor Blue
 Write-Host 'Create a new virtual enviroment' -ForegroundColor Green
 CreateVirtualEnvironment -_project_name $args[0] -_python_version $args[1] -_institution $args[2] -_dev_mode $args[3] -_reset $args[4]
-Write-Host '-[ END ]----------------------------------------------------------------------' -ForegroundColor Cyan
+Write-Host '-[ END ]------------------------------------------------------------------------' -ForegroundColor Cyan
