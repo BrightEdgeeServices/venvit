@@ -307,7 +307,6 @@ function ReadYesOrNo {
 }
 
 # Script execution starts here
-# You might want to pass parameters in a different way, depending on how you plan to use the script
 Write-Host ''
 Write-Host ''
 Write-Host '=[ START ]======================================================================' -ForegroundColor Blue
