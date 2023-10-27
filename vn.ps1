@@ -57,7 +57,7 @@ function CreateVirtualEnvironment {
     $_project_base_dir = $env:PROJECTS_BASE_DIR
     $_project_name = if (-not $_project_name) { Read-Host "Project name" } else { $_project_name }
     $_python_version = if (-not $_python_version) { Read-Host "Python version" } else { $_python_version }
-    $_institution = if (-not $_institution) { Read-Host "Issue prefix" } else { $_institution }
+    $_institution = if (-not $_institution) { Read-Host "Institution" } else { $_institution }
     if (-not $_dev_mode -eq "Y" -or -not $_dev_mode -eq "N" -or [string]::IsNullOrWhiteSpace($_dev_mode)) {
         $_dev_mode = ReadYesOrNo -_prompt_text "Dev mode"
     }
@@ -65,7 +65,7 @@ function CreateVirtualEnvironment {
         $_reset = ReadYesOrNo -_prompt_text "Reset scripts"
     }
 
-    # Determine project directory based on issue prefix
+    # Determine project directory based on institution
     switch ($_institution) {
         "PP" { $_institution_dir = Join-Path $_project_base_dir "PP" }
         "RTE" { $_institution_dir = Join-Path $_project_base_dir "RTE" }
@@ -74,6 +74,8 @@ function CreateVirtualEnvironment {
         "DdT" { $_institution_dir = Join-Path $_project_base_dir "DdT" }
         default { $_institution_dir = Join-Path $_project_base_dir "BEE" }
     }
+    # Create institution directory if it does not exist
+    if (-not (Test-Path $_institution_dir)) {mkdir $_institution_dir}
     $_project_dir = Join-Path $_institution_dir $_project_name
 
     # Output configuration details
@@ -152,7 +154,7 @@ function CreateVirtualEnvironment {
             $s = 'Write-Host "Running ' + $_support_scripts[1] + '..."'
             Set-Content -Path $_script_mandatory_path -Value $s
             Add-Content -Path $_script_mandatory_path -Value "`$env:VENV_PY_VER = '$_python_version'"
-            Add-Content -Path $_script_mandatory_path -Value "`$env:GITIT_ISSUE_PREFIX = '$_institution'"
+            Add-Content -Path $_script_mandatory_path -Value "`$env:VENV_INSTITUTION = '$_institution'"
             Add-Content -Path $_script_mandatory_path -Value "`$env:PYTHONPATH = '$_project_dir;$_project_dir\src;$_project_dir\src\$_project_name'"
             Add-Content -Path $_script_mandatory_path -Value "`$env:PROJECT_DIR = '$_project_dir'"
         }
