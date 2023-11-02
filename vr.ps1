@@ -125,6 +125,7 @@ function ShowEnvVarHelp {
 # Script execution starts here
 Write-Host ''
 Write-Host ''
-Write-Host '=[ START ]======================================================================' -ForegroundColor Blue
+$dateTime = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
+Write-Host "=[ START $dateTime ]==================================================" -ForegroundColor Blue
 RemoveVirtualEnvironment -_project_name $args[0]
 Write-Host '-[ END ]------------------------------------------------------------------------' -ForegroundColor Cyan

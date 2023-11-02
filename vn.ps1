@@ -135,15 +135,15 @@ function CreateVirtualEnvironment {
             $s = 'Write-Host "Running ' + $_support_scripts[0] + '..."'
             Set-Content -Path $_script_install_path -Value $s
             Add-Content -Path $_script_install_path -Value "git init"
-            Add-Content -Path $_script_install_path -Value "pip install --upgrade --force black"
-            Add-Content -Path $_script_install_path -Value "pip install --upgrade --force flake8"
-            Add-Content -Path $_script_install_path -Value "pip install --upgrade --force pre-commit"
+            Add-Content -Path $_script_install_path -Value "pip install --upgrade --force --no-cache-dir black"
+            Add-Content -Path $_script_install_path -Value "pip install --upgrade --force --no-cache-dir flake8"
+            Add-Content -Path $_script_install_path -Value "pip install --upgrade --force --no-cache-dir pre-commit"
             Add-Content -Path $_script_install_path -Value "pre-commit install"
             Add-Content -Path $_script_install_path -Value "pre-commit autoupdate"
             if($_dev_mode -eq "Y") {
-                Add-Content -Path $_script_install_path -Value "if (Test-Path -Path $_project_dir\pyproject.toml) {pip install -e .[dev]}"
+                Add-Content -Path $_script_install_path -Value "if (Test-Path -Path $_project_dir\pyproject.toml) {pip install --no-cache-dir -e .[dev]}"
                 } else {
-                    Add-Content -Path $_script_install_path -Value "if (Test-Path -Path $_project_dir\pyproject.toml) {pip install -e .}"
+                    Add-Content -Path $_script_install_path -Value "if (Test-Path -Path $_project_dir\pyproject.toml) {pip install --no-cache-dir -e .}"
             }
         }
 
@@ -315,6 +315,7 @@ function ReadYesOrNo {
 # Script execution starts here
 Write-Host ''
 Write-Host ''
-Write-Host '=[ START ]======================================================================' -ForegroundColor Blue
+$dateTime = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
+Write-Host "=[ START $dateTime ]==================================================" -ForegroundColor Blue
 CreateVirtualEnvironment -_project_name $args[0] -_python_version $args[1] -_institution $args[2] -_dev_mode $args[3] -_reset $args[4]
 Write-Host '-[ END ]------------------------------------------------------------------------' -ForegroundColor Cyan
