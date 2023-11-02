@@ -1,1 +1,1 @@
-Remove-Item -Path .\desktop.ini -Recurse -Force
+del .\desktop.ini -Recurse -Force
