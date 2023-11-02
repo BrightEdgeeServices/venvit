@@ -12,6 +12,7 @@ function DisplayEnvironmentVariables {
     Write-Host "INSTALLER_PWD = $env:INSTALLER_PWD"
     Write-Host "INSTALLER_USERID = $env:INSTALLER_USERID"
     Write-Host "MYSQL_ROOT_PASSWORD = $env:MYSQL_ROOT_PASSWORD"
+    Write-Host "MYSQL_TCP_PORT = $env:MYSQL_TCP_PORT"
 }
 function InitVirtualEnvironment {
     param (
