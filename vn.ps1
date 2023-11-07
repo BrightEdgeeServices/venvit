@@ -111,9 +111,15 @@ function CreateVirtualEnvironment {
         if (-not (Test-Path "$_project_dir\docs\requirements_docs.txt")) {
             New-Item -ItemType File -Path "$_project_dir\docs\requirements_docs.txt" -Force
         }
-        if (-not (Test-Path -Path "$_project_dir\install.ps1")) {
-            New-Item -ItemType File -Path "$_project_dir\install.ps1" -Force
-        }
+        
+        $_project_install_path = Join-Path -Path $_project_dir -ChildPath "install.ps1"
+        if (-not (Test-Path -Path $_project_install_path)) {
+            New-Item -ItemType File -Path $_project_install_path -Force
+            if($_dev_mode -eq "Y") {
+                Add-Content -Path $_project_install_path -Value "if (Test-Path -Path $_project_dir\pyproject.toml) {pip install --no-cache-dir -e .[dev]}"
+                } else {
+                    Add-Content -Path $_project_install_path -Value "if (Test-Path -Path $_project_dir\pyproject.toml) {pip install --no-cache-dir -e .}"
+            }        }
         if (-not (Test-Path "$_project_dir\.pre-commit-config.yaml")) { CreatePreCommitConfigYaml }
 
         # $install_file_name = "venv_${_project_name}_install.ps1"
@@ -145,11 +151,6 @@ function CreateVirtualEnvironment {
             Add-Content -Path $_script_install_path -Value "pre-commit install"
             Add-Content -Path $_script_install_path -Value "pre-commit autoupdate"
             Add-Content -Path $_script_install_path -Value "$_project_dir\install.ps1"
-            if($_dev_mode -eq "Y") {
-                Add-Content -Path $_script_install_path -Value "if (Test-Path -Path $_project_dir\pyproject.toml) {pip install --no-cache-dir -e .[dev]}"
-                } else {
-                    Add-Content -Path $_script_install_path -Value "if (Test-Path -Path $_project_dir\pyproject.toml) {pip install --no-cache-dir -e .}"
-            }
         }
 
         # Check if the mandatory setup script does not exist
