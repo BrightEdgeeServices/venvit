@@ -169,13 +169,14 @@ function CreateVirtualEnvironment {
             Set-Content -Path $_script_custom_path -Value $s
             Add-Content -Path $_script_custom_path -Value ''
             Add-Content -Path $_script_custom_path -Value '# Override global environment varables by setting the here.  Uncomment them and set the correct value or add a variable by replacing "??"'
-            Add-Content -Path $_script_custom_path -Value '#$env:MYSQL_TCP_PORT = ??'
             Add-Content -Path $_script_custom_path -Value '#$env:INSTALLER_PWD = "??"'
             Add-Content -Path $_script_custom_path -Value '#$env:INSTALLER_USERID = "??"'
             Add-Content -Path $_script_custom_path -Value '#$env:LINUX_ROOT_PWD = "??"'
+            Add-Content -Path $_script_custom_path -Value '#$env:MYSQL_DATABASE = "??"'
             Add-Content -Path $_script_custom_path -Value '#$env:MYSQL_HOST = "??"'
             Add-Content -Path $_script_custom_path -Value '#$env:MYSQL_PWD = "??"'
             Add-Content -Path $_script_custom_path -Value '#$env:MYSQL_ROOT_PASSWORD = "??"'
+            Add-Content -Path $_script_custom_path -Value '#$env:MYSQL_TCP_PORT = ??'
         }
         & $_script_install_path
         & $_script_mandatory_path
