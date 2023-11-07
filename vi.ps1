@@ -40,14 +40,14 @@ function InitVirtualEnvironment {
     $_venv_base_dir = $env:VENV_BASE_DIR
     $_venv_dir = "$_venv_base_dir\${_project_name}_env"
 
-    if ($env:ENVIRONMENT -eq "loc_dev") {
-        & "$_secrets_dir\env_var_dev.ps1"
-    }
-
     deactivate
     & "$_venv_dir\Scripts\activate.ps1"
     & "${_scripts_dir}\venv_${_project_name}_setup_mandatory.ps1" $_project_name
     $_project_dir = $env:PROJECT_DIR
+
+    if ($env:ENVIRONMENT -eq "loc_dev") {
+        & "$_secrets_dir\env_var_dev.ps1"
+    }
 
     # Remove temporary directories from previous sessions
     Get-ChildItem -Path $env:TEMP -Directory -Filter "$_project_name`_*" | Remove-Item -Recurse -Force

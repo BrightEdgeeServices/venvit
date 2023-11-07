@@ -157,6 +157,7 @@ function CreateVirtualEnvironment {
             Add-Content -Path $_script_mandatory_path -Value "`$env:VENV_INSTITUTION = '$_institution'"
             Add-Content -Path $_script_mandatory_path -Value "`$env:PYTHONPATH = '$_project_dir;$_project_dir\src;$_project_dir\src\$_project_name'"
             Add-Content -Path $_script_mandatory_path -Value "`$env:PROJECT_DIR = '$_project_dir'"
+            Add-Content -Path $_script_mandatory_path -Value "`$env:PROJECT_NAME = '$_project_name'"
         }
 
         # Check if the custom setup script does not exist
