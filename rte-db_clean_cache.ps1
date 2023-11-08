@@ -1,9 +1,0 @@
-Remove-Item -Path rte_db.egg-info -Recurse -Force
-Remove-Item -Path __pycache__ -Recurse -Force
-Remove-Item -Path .pytest_cache -Recurse -Force
-Remove-Item -Path etc\__pycache__ -Recurse -Force
-Remove-Item -Path src\__pycache__ -Recurse -Force
-Remove-Item -Path src\rte_db.egg-info -Recurse -Force
-Remove-Item -Path src\tables\__pycache__ -Recurse -Force
-Remove-Item -Path tests\__pycache__ -Recurse -Force
-Remove-Item -Path desktop.ini -Recurse -Force
