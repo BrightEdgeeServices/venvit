@@ -40,7 +40,12 @@ function InitVirtualEnvironment {
     $_venv_base_dir = $env:VENV_BASE_DIR
     $_venv_dir = "$_venv_base_dir\${_project_name}_env"
 
-    deactivate
+    if ($env:VIRTUAL_ENV) {
+        "Virtual environment is active at: $env:VIRTUAL_ENV, deactivating"
+        deactivate
+    } else {
+        "No virtual environment is active."
+    }
     & "$_venv_dir\Scripts\activate.ps1"
     & "${_scripts_dir}\venv_${_project_name}_setup_mandatory.ps1" $_project_name
     $_project_dir = $env:PROJECT_DIR
