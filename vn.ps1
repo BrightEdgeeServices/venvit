@@ -97,7 +97,16 @@ function CreateVirtualEnvironment {
     if ($_continue -eq "Y") {
         Set-Location -Path $_institution_dir.Substring(0,2)
         Write-Host $_python_base_dir\Python$_python_version\python -m venv --clear $_venv_base_dir\$_project_name"_env"
-        & deactivate  2>$null
+
+
+        if ($env:VIRTUAL_ENV) {
+            "Virtual environment is active at: $env:VIRTUAL_ENV, deactivating"
+            deactivate
+            } else {
+            "No virtual environment is active."
+        }
+    
+        # & deactivate  2>$null
         & $_python_base_dir\Python$_python_version\python -m venv --clear $_venv_base_dir\$_project_name"_env"
         & $_venv_base_dir"\"$_project_name"_env\Scripts\activate.ps1"
         python.exe -m pip install --upgrade pip
