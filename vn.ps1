@@ -200,6 +200,26 @@ function CreateVirtualEnvironment {
     }
 }
 
+function DisplayEnvironmentVariables {
+    Write-Host ""
+    Write-Host "System Environment Variables"  -ForegroundColor Green
+    Write-Host "ENVIRONMENT:           $env:ENVIRONMENT"
+    Write-Host "PROJECTS_BASE_DIR:     $env:PROJECTS_BASE_DIR"
+    Write-Host "PROJECT_DIR:           $env:PROJECT_DIR"
+    Write-Host "SCRIPTS_DIR:           $env:SCRIPTS_DIR"
+    Write-Host "SECRETS_DIR:           $env:SECRETS_DIR"
+    Write-Host "VENV_BASE_DIR:         $env:VENV_BASE_DIR"
+    Write-Host "VENV_PYTHON_BASE_DIR:  $env:VENV_PYTHON_BASE_DIR"
+    Write-Host ""
+    Write-Host "Project Environment Variables"  -ForegroundColor Green
+    Write-Host "INSTALLER_PWD:        $env:INSTALLER_PWD"
+    Write-Host "INSTALLER_USERID:     $env:INSTALLER_USERID"
+    Write-Host "MYSQL_DATABASE:       $env:MYSQL_DATABASE"
+    Write-Host "MYSQL_HOST:           $env:MYSQL_HOST"
+    Write-Host "MYSQL_ROOT_PASSWORD:  $env:MYSQL_ROOT_PASSWORD"
+    Write-Host "MYSQL_TCP_PORT:       $env:MYSQL_TCP_PORT"
+}
+
 function MoveFileToArchiveIfExists {
     param (
         [string]$_script_path,
@@ -346,4 +366,5 @@ Write-Host ''
 $dateTime = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
 Write-Host "=[ START $dateTime ]==================================================" -ForegroundColor Blue
 CreateVirtualEnvironment -_project_name $args[0] -_python_version $args[1] -_institution $args[2] -_dev_mode $args[3] -_reset $args[4]
+DisplayEnvironmentVariables
 Write-Host '-[ END ]------------------------------------------------------------------------' -ForegroundColor Cyan
