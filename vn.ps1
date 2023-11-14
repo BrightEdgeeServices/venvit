@@ -124,6 +124,8 @@ function CreateVirtualEnvironment {
         $_project_install_path = Join-Path -Path $_project_dir -ChildPath "install.ps1"
         if (-not (Test-Path -Path $_project_install_path)) {
             New-Item -ItemType File -Path $_project_install_path -Force
+            $s = 'Write-Host "Running ' + $_project_install_path + '..."'
+            Add-Content -Path $_project_install_path -Value $s
             if($_dev_mode -eq "Y") {
                 Add-Content -Path $_project_install_path -Value "if (Test-Path -Path $_project_dir\pyproject.toml) {pip install --no-cache-dir -e .[dev]}"
                 } else {
