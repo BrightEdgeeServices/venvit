@@ -124,19 +124,16 @@ function CreateVirtualEnvironment {
         $_project_install_path = Join-Path -Path $_project_dir -ChildPath "install.ps1"
         if (-not (Test-Path -Path $_project_install_path)) {
             New-Item -ItemType File -Path $_project_install_path -Force
-            $s = 'Write-Host "Running ' + $_project_install_path + '..."'
+            $s = 'Write-Host Running $_project_install_path ... -ForegroundColor Yellow'
             Add-Content -Path $_project_install_path -Value $s
+            Add-Content ""
             if($_dev_mode -eq "Y") {
-                Add-Content -Path $_project_install_path -Value "if (Test-Path -Path $_project_dir\pyproject.toml) {pip install --no-cache-dir -e .[dev]}"
+                Add-Content -Path $_project_install_path -Value 'if (Test-Path -Path $_project_dir\pyproject.toml) {pip install --no-cache-dir -e .[dev]}'
                 } else {
-                    Add-Content -Path $_project_install_path -Value "if (Test-Path -Path $_project_dir\pyproject.toml) {pip install --no-cache-dir -e .}"
+                    Add-Content -Path $_project_install_path -Value 'if (Test-Path -Path $_project_dir\pyproject.toml) {pip install --no-cache-dir -e .}'
             }        }
         if (-not (Test-Path "$_project_dir\.pre-commit-config.yaml")) { CreatePreCommitConfigYaml }
 
-        # $install_file_name = "venv_${_project_name}_install.ps1"
-        # $script_install_path = Join-Path -Path $_scripts_dir -ChildPath $install_file_name
-        # $mandatory_file_name = "venv_${_project_name}_setup_mandatory.ps1"
-        # $script_mandatory_path = Join-Path $_scripts_dir -ChildPath ${mandatory_file_name}
         $_support_scripts = @(
             "venv_${_project_name}_install.ps1",
             "venv_${_project_name}_setup_mandatory.ps1"
