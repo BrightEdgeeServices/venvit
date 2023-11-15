@@ -16,6 +16,9 @@ function DisplayEnvironmentVariables {
     Write-Host "MYSQL_HOST:           $env:MYSQL_HOST"
     Write-Host "MYSQL_ROOT_PASSWORD:  $env:MYSQL_ROOT_PASSWORD"
     Write-Host "MYSQL_TCP_PORT:       $env:MYSQL_TCP_PORT"
+    Write-Host ""
+    Write-Host "Git Information"  -ForegroundColor Green
+    git branch --all
 }
 function InitVirtualEnvironment {
     param (
