@@ -124,7 +124,7 @@ function CreateVirtualEnvironment {
         $_project_install_path = Join-Path -Path $_project_dir -ChildPath "install.ps1"
         if (-not (Test-Path -Path $_project_install_path)) {
             New-Item -ItemType File -Path $_project_install_path -Force
-            $s = 'Write-Host Running $_project_install_path ... -ForegroundColor Yellow'
+            $s = 'Write-Host "Running ' + $_project_install_path + '..."' + " -ForegroundColor Yellow"
             Add-Content -Path $_project_install_path -Value $s
             Add-Content ""
             if($_dev_mode -eq "Y") {
@@ -150,7 +150,7 @@ function CreateVirtualEnvironment {
         $_script_install_path = Join-Path -Path $_scripts_dir -ChildPath $_support_scripts[0]
         if (-not (Test-Path -Path $_script_install_path)) {
             # Create the script and write the lines
-            $s = 'Write-Host "Running ' + $_support_scripts[0] + '..."'
+            $s = 'Write-Host "Running ' + $_support_scripts[0] + '..."' + " -ForegroundColor Yellow"
             Set-Content -Path $_script_install_path -Value $s
             Add-Content -Path $_script_install_path -Value "git init"
             Add-Content -Path $_script_install_path -Value "pip install --upgrade --force --no-cache-dir black"
@@ -165,7 +165,7 @@ function CreateVirtualEnvironment {
         $_script_mandatory_path = Join-Path -Path $_scripts_dir -ChildPath $_support_scripts[1]
         if (-not (Test-Path $_script_mandatory_path)) {
             # Create the script and write the lines
-            $s = 'Write-Host "Running ' + $_support_scripts[1] + '..."'
+            $s = 'Write-Host "Running ' + $_support_scripts[1] + '..."' + " -ForegroundColor Yellow"
             Set-Content -Path $_script_mandatory_path -Value $s
             Add-Content -Path $_script_mandatory_path -Value "`$env:VENV_PY_VER = '$_python_version'"
             Add-Content -Path $_script_mandatory_path -Value "`$env:VENV_INSTITUTION = '$_institution'"
@@ -178,7 +178,7 @@ function CreateVirtualEnvironment {
         $_custom_file_name = "venv_${_project_name}_setup_custom.ps1"
         $_script_custom_path = Join-Path $_scripts_dir -ChildPath ${_custom_file_name}
         if (-not (Test-Path $_script_custom_path)) {
-            $s = 'Write-Host "Running ' + $_custom_file_name + '..."'
+            $s = 'Write-Host "Running ' + $_custom_file_name + '..."' + " -ForegroundColor Yellow"
             Set-Content -Path $_script_custom_path -Value $s
             Add-Content -Path $_script_custom_path -Value ''
             Add-Content -Path $_script_custom_path -Value '# Override global environment varables by setting the here.  Uncomment them and set the correct value or add a variable by replacing "??"'
