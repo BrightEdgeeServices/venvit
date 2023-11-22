@@ -1,4 +1,4 @@
-print ('Hello world')
+print ('Running script')
 
 from google.oauth2 import service_account
 from googleapiclient.discovery import build
@@ -13,7 +13,7 @@ SCOPES = ['https://www.googleapis.com/auth/drive']
 FOLDER_ID = '1Kb5migDA2erszx5A7maJdpV_4su4-dK7'
 
 # Path to the directory containing files to upload
-FILES_DIRECTORY = '-'
+FILES_DIRECTORY = os.environ['GITHUB_WORKSPACE']
 
 def main():
     # Load credentials from environment variable
