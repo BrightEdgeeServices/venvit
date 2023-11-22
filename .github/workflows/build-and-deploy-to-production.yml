@@ -66,7 +66,7 @@ jobs:
       
       - name: Upload to google drive
         run: |
-          python ../../PushToGoogle.py
+          python ./PushToGoogle.py
 
 
 #      ToDo
