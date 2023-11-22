@@ -3,6 +3,8 @@ name = 'batch'
 version = '5.1.0'
 authors = [
     { name = 'Hendrik du Toit', email = 'hendrik@brightedge.co.za' },
+	{ name = 'Dirk du Toit', email = 'dirk@brightedge.co.za' },
+	{ name = 'Henru du Toit', email = 'henru@brightedge.co.za' },
 ]
 description = 'Tools for creating Python virtual environments.'
 license = {file = 'LICENSE'}

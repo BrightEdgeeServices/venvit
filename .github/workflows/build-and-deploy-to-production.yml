@@ -68,6 +68,9 @@ jobs:
           credentials_json: ${{ secrets.GOOGLE_SERVICES_KEY }}
       
       - name: Upload to google drive
+        env:
+          SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_SERVICES_KEY }}
+          GITHUB_WORKSPACE: ${{ github.workspace }}
         run: |
           python ./PushToGoogle.py
 
