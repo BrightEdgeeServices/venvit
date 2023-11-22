@@ -26,7 +26,7 @@ def main():
     for filename in os.listdir(FILES_DIRECTORY):
         file_path = os.path.join(FILES_DIRECTORY, filename)
         if os.path.isfile(file_path):
-            upload_file(service, file_path, filename
+            upload_file(service, file_path, filename)
 
 def upload_file(service, file_path, filename):
     file_metadata = {
