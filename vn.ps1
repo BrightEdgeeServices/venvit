@@ -128,9 +128,9 @@ function CreateVirtualEnvironment {
             Add-Content -Path $_project_install_path -Value $s
             Add-Content ""
             if($_dev_mode -eq "Y") {
-                Add-Content -Path $_project_install_path -Value 'if (Test-Path -Path $_project_dir\pyproject.toml) {pip install --no-cache-dir -e .[dev]}'
+                Add-Content -Path $_project_install_path -Value 'if (Test-Path -Path $env:PROJECT_DIR\pyproject.toml) {pip install --no-cache-dir -e .[dev]}'
                 } else {
-                    Add-Content -Path $_project_install_path -Value 'if (Test-Path -Path $_project_dir\pyproject.toml) {pip install --no-cache-dir -e .}'
+                    Add-Content -Path $_project_install_path -Value 'if (Test-Path -Path $env:PROJECT_DIR\pyproject.toml) {pip install --no-cache-dir -e .}'
             }        }
         if (-not (Test-Path "$_project_dir\.pre-commit-config.yaml")) { CreatePreCommitConfigYaml }
 
