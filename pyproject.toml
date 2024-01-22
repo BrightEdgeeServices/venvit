@@ -1,6 +1,6 @@
 [project]
 name = 'batch'
-version = '5.1.1'
+version = '5.1.2'
 authors = [
     { name = 'Hendrik du Toit', email = 'hendrik@brightedge.co.za' },
 	{ name = 'Dirk du Toit', email = 'dirk@brightedge.co.za' },

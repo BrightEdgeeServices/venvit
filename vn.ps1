@@ -158,7 +158,8 @@ function CreateVirtualEnvironment {
             Add-Content -Path $_script_install_path -Value "pip install --upgrade --force --no-cache-dir pre-commit"
             Add-Content -Path $_script_install_path -Value "pre-commit install"
             Add-Content -Path $_script_install_path -Value "pre-commit autoupdate"
-            Add-Content -Path $_script_install_path -Value "$_project_dir\install.ps1"
+            $s = '& "' + "$_project_dir\install.ps1" + '"' 
+            Add-Content -Path $_script_install_path -Value $s
         }
 
         # Check if the mandatory setup script does not exist
