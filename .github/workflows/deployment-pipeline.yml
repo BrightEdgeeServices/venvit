@@ -5,16 +5,16 @@ on:
   push:
 
 jobs:
-#  Pre-Commit:
-#    uses: ./.github/workflows/pre-commit.yml
+  Pre-Commit:
+    uses: ./.github/workflows/pre-commit.yml
 
-#  Check-rst-Documentation:
-#    needs: Pre-Commit
-#    uses: ./.github/workflows/check-rst-documentation.yml
+  Check-rst-Documentation:
+    needs: Pre-Commit
+    uses: ./.github/workflows/check-rst-documentation.yml
 
-  # CI:
-  #   needs: Check-rst-Documentation
-  #   uses: ./.github/workflows/ci.yml
+  CI:
+    needs: Check-rst-Documentation
+    uses: ./.github/workflows/ci.yml
 
   Build-and-Deploy-to-Production:
     # needs: CI

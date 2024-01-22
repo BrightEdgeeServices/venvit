@@ -191,7 +191,7 @@ function CreateVirtualEnvironment {
             Add-Content -Path $_script_custom_path -Value '#$env:MYSQL_ROOT_PASSWORD = "??"'
             Add-Content -Path $_script_custom_path -Value '#$env:MYSQL_TCP_PORT = ??'
         }
-        & $_script_install_path
+        git
         & $_script_mandatory_path
         & $_script_custom_path
     }
