@@ -19,7 +19,7 @@ rstcheck README.rst
 pre-commit run --all-files
 TIMEOUT /T 1
 git add -A
-pytest tests
+::pytest tests
 ::gitit commitcust -m %1
 git commit -m %1
 ::gitit pushall

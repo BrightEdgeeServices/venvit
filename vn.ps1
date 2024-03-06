@@ -73,6 +73,7 @@ function CreateVirtualEnvironment {
         "RE" { $_institution_dir = Join-Path $_project_base_dir "ReahlExamples" }
         "HdT" { $_institution_dir = Join-Path $_project_base_dir "HdT" }
         "DdT" { $_institution_dir = Join-Path $_project_base_dir "DdT" }
+        "Citiq" { $_institution_dir = Join-Path $_project_base_dir "Citiq" }
         default { $_institution_dir = Join-Path $_project_base_dir "BEE" }
     }
     # Create institution directory if it does not exist
@@ -126,6 +127,11 @@ function CreateVirtualEnvironment {
             New-Item -ItemType File -Path $_project_install_path -Force
             $s = 'Write-Host "Running ' + $_project_install_path + '..."' + " -ForegroundColor Yellow"
             Add-Content -Path $_project_install_path -Value $s
+            Add-Content -Path $_project_install_path -Value "pip install --upgrade --force --no-cache-dir black"
+            Add-Content -Path $_project_install_path -Value "pip install --upgrade --force --no-cache-dir flake8"
+            Add-Content -Path $_project_install_path -Value "pip install --upgrade --force --no-cache-dir pre-commit"
+            Add-Content -Path $_project_install_path -Value "pre-commit install"
+            Add-Content -Path $_project_install_path -Value "pre-commit autoupdate"
             Add-Content ""
             if($_dev_mode -eq "Y") {
                 Add-Content -Path $_project_install_path -Value 'if (Test-Path -Path $env:PROJECT_DIR\pyproject.toml) {pip install --no-cache-dir -e .[dev]}'
@@ -153,11 +159,6 @@ function CreateVirtualEnvironment {
             $s = 'Write-Host "Running ' + $_support_scripts[0] + '..."' + " -ForegroundColor Yellow"
             Set-Content -Path $_script_install_path -Value $s
             Add-Content -Path $_script_install_path -Value "git init"
-            Add-Content -Path $_script_install_path -Value "pip install --upgrade --force --no-cache-dir black"
-            Add-Content -Path $_script_install_path -Value "pip install --upgrade --force --no-cache-dir flake8"
-            Add-Content -Path $_script_install_path -Value "pip install --upgrade --force --no-cache-dir pre-commit"
-            Add-Content -Path $_script_install_path -Value "pre-commit install"
-            Add-Content -Path $_script_install_path -Value "pre-commit autoupdate"
             $s = '& "' + "$_project_dir\install.ps1" + '"' 
             Add-Content -Path $_script_install_path -Value $s
         }
