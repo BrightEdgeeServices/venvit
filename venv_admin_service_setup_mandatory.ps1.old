@@ -1,6 +1,0 @@
-Write-Host "Running venv_admin_service_setup_mandatory.ps1..." -ForegroundColor Yellow
-$env:VENV_PY_VER = '38'
-$env:VENV_INSTITUTION = 'Citiq'
-$env:PYTHONPATH = 'D:\Dropbox\Projects\Citiq\admin_service;D:\Dropbox\Projects\Citiq\admin_service\src;D:\Dropbox\Projects\Citiq\admin_service\src\admin_service'
-$env:PROJECT_DIR = 'D:\Dropbox\Projects\Citiq\admin_service'
-$env:PROJECT_NAME = 'admin_service'
