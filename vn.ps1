@@ -34,7 +34,7 @@ function CreateVirtualEnvironment {
 
     # Show help if no project name is provided
     if (-not $_project_name -or $_project_name -eq "-h") {
-            ShowHelp
+        ShowHelp
         return
     }
 
