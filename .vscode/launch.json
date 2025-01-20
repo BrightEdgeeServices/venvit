@@ -85,6 +85,15 @@
       "args": [
         "D:\\GoogleDrive\\Download"
       ]
+    },
+    {
+      "name": "vr Test250120??",
+      "type": "PowerShell",
+      "request": "launch",
+      "script": ".\\src\\vr.ps1",
+      "args": [
+        "Test25012010"
+      ]
     }
   ]
 }
